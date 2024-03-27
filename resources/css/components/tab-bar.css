@@ -1,0 +1,11 @@
+.bb-tab-bar {
+  @apply flex border-b border-bb-gray-300 mb-8;
+
+  &__button {
+    @apply relative py-1 px-4;
+
+    &--active::before {
+      @apply content-[''] absolute h-1 rounded-full bg-bb-primary w-full left-0 bottom-[-2px];
+    }
+  }
+}

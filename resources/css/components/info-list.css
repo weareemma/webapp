@@ -1,0 +1,9 @@
+.bb-info-list {
+  &__tile {
+    @apply flex items-center justify-between pb-6 text-bb-gray-800 text-lg;
+
+    &:not(:last-child) {
+      @apply border-b border-bb-gray-200 mb-4;
+    }
+  }
+}

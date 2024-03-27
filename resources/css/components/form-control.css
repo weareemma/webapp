@@ -1,0 +1,19 @@
+@layer components {
+    .bb-label {
+        @apply block text-base text-bb-gray-800;
+    }
+
+    .bb-form-control {
+        @apply border rounded-md px-3 py-2 bg-white border-bb-gray-300 focus:ring-0 focus:outline-none placeholder-bb-gray-500;
+    }
+
+    .bb-form-control:not(.readonly),
+    .bb-form-control:not(:disabled) {
+        @apply focus:border-bb-primary-lighter;
+    }
+
+    .bb-form-control.readonly,
+    .bb-form-control:disabled {
+        @apply bg-bb-gray-100 text-bb-gray-400;
+    }
+}

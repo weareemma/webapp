@@ -1,0 +1,38 @@
+@layer components {
+    .bb-uploader .uploader-button {
+        @apply bb-button-primary-outline;
+    }
+
+    .bb-uploader .uploader-dropzone {
+        @apply grid place-items-center p-12 border-2 border-dashed border-bb-primary-lighter rounded-2xl cursor-pointer transition-colors;
+    }
+
+    .bb-uploader .uploader-dropzone .drag-text,
+    .bb-uploader .uploader-dropzone .drop-text {
+        @apply text-lg text-bb-gray-400 max-w-sm;
+    }
+
+    .bb-uploader .uploader-dropzone.highlighted {
+        @apply border-bb-primary-lighter;
+    }
+
+    .bb-uploader .uploader-dropzone.highlighted .drop-text {
+        @apply text-bb-primary-lighter;
+    }
+
+    .bb-uploader .uploader-dropzone .preview-zone {
+        @apply flex justify-center items-center;
+    }
+
+    .bb-uploader .uploader-dropzone .preview-zone .image-preview {
+        @apply block h-40 w-40 object-contain mx-auto;
+    }
+
+    .bb-uploader .uploader-dropzone .preview-zone .document-preview {
+        @apply block w-12 mx-auto;
+    }
+
+    .bb-uploader .uploader-dropzone .preview-zone .file-name {
+        @apply text-center text-sm;
+    }
+}

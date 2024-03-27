@@ -1,0 +1,11 @@
+.bb-social-login-btn {
+    height: 46px;
+    @apply w-full shadow-sm block font-medium rounded-md border border-gray-300 my-3 items-center hover:border-indigo-500 cursor-pointer relative;
+}
+
+.bb-social-login-logo {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 36px;
+}

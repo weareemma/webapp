@@ -1,0 +1,53 @@
+.big-header-title {
+  font-weight: 800;
+  font-size: 24px;
+}
+
+/** Scrollbar **/
+::-webkit-scrollbar {
+  @apply block h-[6px] w-1 bg-bb-gray-200 rounded-full;
+}
+.no-scrollbar::-webkit-scrollbar {
+  @apply hidden;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply block bg-bb-blue-500 rounded-full;
+}
+
+/** Time picker **/
+.vue__time-picker .dropdown {
+  z-index: 11 !important;
+}
+.vue__time-picker {
+  width: 100% !important;
+}
+.vue__time-picker input.vue__time-picker-input {
+  height: auto !important;
+  @apply w-full border rounded-md px-3 py-2 bg-white border-bb-gray-300 focus:ring-0 focus:outline-none placeholder-bb-gray-500 !important;
+}
+
+/** Datepicker **/
+.dp__input {
+  @apply w-full border rounded-md py-2 bg-white border-bb-gray-300 focus:ring-0 focus:outline-none placeholder-bb-gray-500 !important;
+}
+
+/** Session store selection */
+#store_switch {
+}
+
+.icon-button {
+  @apply bg-bb-gray-100 text-bb-gray-500 h-9 w-9 rounded-[12px] p-2 transition-colors hover:text-bb-primary;
+}
+
+.customer-subscription-card {
+  background: radial-gradient(circle at left, #A9D6DB 80%, #ffffff 20%);
+}
+
+.customer-girl-img-card {
+  background-image: url("../img/girl.png");
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  @apply w-56 h-36 bg-bb-aqua-500 rounded-xl;
+}

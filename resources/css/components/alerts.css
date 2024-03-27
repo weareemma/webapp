@@ -1,0 +1,62 @@
+@layer components {
+    /* base */
+    .bb-alert {
+        @apply p-4 mt-4 mx-4 rounded-2xl border cursor-default;
+    }
+
+    .bb-alert .notification-title {
+        @apply font-bold text-base uppercase;
+    }
+
+    /* standard */
+    .bb-alert.standard {
+        @apply bg-white border-bb-primary;
+    }
+
+    .bb-alert.standard .notification-title {
+        @apply text-bb-primary-lighter;
+    }
+
+    .bb-alert.standard .notification-content {
+        @apply text-bb-primary;
+    }
+
+    /* success */
+    .bb-alert.success {
+        @apply bg-bb-success-100 border-bb-success-200;
+    }
+
+    .bb-alert.success .notification-title {
+        @apply text-bb-success-200;
+    }
+
+    .bb-alert.success .notification-content {
+        @apply text-bb-success-300;
+    }
+
+    /* warning */
+    .bb-alert.warning {
+        @apply bg-bb-warning-100 border-bb-warning-200;
+    }
+
+    .bb-alert.warning .notification-title {
+        @apply text-bb-warning-200;
+    }
+
+    .bb-alert.warning .notification-content {
+        @apply text-bb-warning-300;
+    }
+
+    /* danger */
+    .bb-alert.danger {
+        @apply bg-bb-danger-100 border-bb-danger-200;
+    }
+
+    .bb-alert.danger .notification-title {
+        @apply text-bb-danger-200;
+    }
+
+    .bb-alert.danger .notification-content {
+        @apply text-bb-danger-300;
+    }
+}
