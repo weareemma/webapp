@@ -105,6 +105,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
       Route::prefix('hair-services')->name('hair-services.')->group(function () {
         Route::post('/primary', [\App\Http\Controllers\BookingController::class, 'primaryHairServices'])->name('primary');
         Route::post('/addon/{primaryService}', [\App\Http\Controllers\BookingController::class, 'addonHairServices'])->name('addon');
+        Route::post('/get-stylists/{store}', [\App\Http\Controllers\BookingController::class, 'stylistAvailable'])->name('stylists');
         Route::post('/check', [\App\Http\Controllers\BookingController::class, 'checkAvailability'])->name('check-availability');
       });
       // get infos
