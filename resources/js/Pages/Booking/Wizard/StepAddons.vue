@@ -7,7 +7,7 @@
       <div class="text-right my-4">
         <a class="cursor-pointer underline"
            v-if="isValid[activeStep.next] && ((wizardSelection.different_services && currentPeople === people[people.length - 1].name) || ! wizardSelection.different_services)"
-           @click.stop="next"
+           @click.stop="selectStylist()"
            :disabled="! ready"
         >
           Salta Add-on >
@@ -143,7 +143,7 @@
         <bb-button class="mt-10"
                    v-if="isValid[activeStep.next] && ((wizardSelection.different_services && currentPeople === people[people.length - 1].name) || ! wizardSelection.different_services)"
                    outline
-                   @click.stop="next"
+                   @click.stop="selectStylist()"
                    :disabled="! ready"
         > Avanti
         </bb-button>
@@ -196,6 +196,13 @@ const nextPeople = () => {
 
 const selectPeople = (name) => {
   currentPeople.value = name;
+}
+
+const selectStylist = () => {
+  store.wizardFetchData('step_addons', {
+    storeId: wizardSelection.value.store_id,
+  });
+  next();
 }
 
 function selectPeopleService(categoryKey, service, name)
