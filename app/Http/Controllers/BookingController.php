@@ -134,7 +134,7 @@ class BookingController extends Controller
 
     public function stylistAvailable(Store $store)
     {
-        $stylists = User::stylists()->orderby('name');
+        $stylists = User::stylists();
         return \response()->json(['data' => $stylists]);
     }
 
