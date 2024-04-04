@@ -1,11 +1,21 @@
 <template>
   <div>
     <div class="text-center mb-16">
-      Seleziona lo stylist
+      Seleziona lo stylist che desideri prenotare
     </div>
 
     <div class="max-w-sm mx-auto">
       <div class="space-y-4">
+        <div
+          class="bb-wizard__button"
+          :class="{
+            'bb-wizard__button--active': wizardGeneral.stylist === null,
+          }"
+          light
+          @click="selectStylist(null)"
+        >
+          <p>Qualunque stylist</p>
+        </div>
         <div
             v-for="(store, index) in wizardGeneral.stylists"
             :key="store.id"
@@ -52,8 +62,11 @@ const {
 const next = inject("next");
 
 function selectStylist(storeObj) {
-  console.log(storeObj)
-  wizardGeneral.value.stylist = storeObj.id;
+  if (storeObj !== null) {
+    wizardGeneral.value.stylist = storeObj.id;
+  } else {
+    wizardGeneral.value.stylist = null;
+  }
 }
 
 </script>
