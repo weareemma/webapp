@@ -43,15 +43,15 @@
                 <div class="min-w-[225px]">
                     <bb-label class="text-sm mb-1">Stato appuntamenti</bb-label>
                     <bb-select
-                        mode="single"
+                        mode="tags"
                         class="w-full"
                         placeholder="Tutti"
                         :close-on-select="true"
                         :options="[
                             {value: 'todo', label: 'To do'},
-                            {value: 'proress', label: 'In corso'},
+                            {value: 'progress', label: 'In corso'},
                             {value: 'ended', label: 'Terminati'},
-                            {value: 'canceled', label: 'Cancellati'},
+                            {value: 'cancelled', label: 'Cancellati'},
                             {value: 'not_shown', label: 'Non presentati'},
                             {value: 'not_executed', label: 'Non eseguiti'},
                         ]"
@@ -65,6 +65,10 @@
             <div class="bb-card my-4 p-6 w-full">
                 <p>Nuovi Clienti</p>
                 <p class="text-2xl text-bb-primary-500 font-bold">{{newCustomers}}</p>
+            </div>
+            <div class="bb-card my-4 p-6 w-full">
+                <p>Nuovi Appuntamenti</p>
+                <p class="text-2xl text-bb-primary-500 font-bold">{{counters.booked}}</p>
             </div>
             <div class="bb-card my-4 p-6 w-full" v-if="false">
                 <p>Valore Totale</p>
@@ -87,6 +91,9 @@
             <div class="bb-card my-4 p-6">
                 <Services :stores="filters.store" :from="filters.from" :to="filters.to" :status="filters.status"/>
             </div>
+            <div class="bb-card my-4 p-6">
+                <Addon :stores="filters.store" :from="filters.from" :to="filters.to" :status="filters.status"/>
+            </div>
         </div>
         
 
@@ -99,6 +106,7 @@ import {usePage} from "@inertiajs/inertia-vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import TotalBookings from '@/Components/Dashboard/TotalBookings.vue';
 import Services from '@/Components/Dashboard/Services.vue';
+import Addon from '@/Components/Dashboard/Addon.vue';
 import axios from 'axios';
 import helpers from '@/helpers';
 import { isNumber } from 'lodash';
@@ -109,7 +117,7 @@ const filters = ref({
     store: [],
     from: '',
     to: '',
-    status: null
+    status: []
 })
 
 watch(() => filters.value, (n) => {
@@ -128,7 +136,8 @@ const updateData = () => {
 const counters = ref({
     amount: '--',
     primary: '--',
-    secondary: '--'
+    secondary: '--',
+    booked: '--'
 });
 const updateCounters = () => {
     axios
@@ -144,6 +153,22 @@ const updateCounters = () => {
             counters.value.amount = res.data.data.amount;
             counters.value.primary = res.data.data.primary;
             counters.value.secondary = res.data.data.secondary;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    
+    axios
+        .get(route('admin.dashboard.bookedCounters'), {
+            params: {
+                from: filters.value.from,
+                to: filters.value.to,
+                store: filters.value.store,
+                status: filters.value.status,
+            }
+        })
+        .then((res) => {
+            counters.value.booked = res.data.data.booked;
         })
         .catch(function (error) {
             console.log(error);

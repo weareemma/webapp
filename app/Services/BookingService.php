@@ -22,6 +22,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon as SupportCarbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Spatie\Activitylog\Models\Activity;
@@ -35,9 +36,24 @@ class BookingService
 
         $slots = [];
 
+        $date = SupportCarbon::parse($request->day);
+
         if ($store)
         {
-            
+            $availability = AvailabilityService::getStoreAvailabilityForBooking($store, $request, $date, 1);
+
+            foreach ($availability as $day => $times)
+            {
+                foreach ($times as $key => $count)
+                {
+                    $slots[] = [
+                        'time' => $key,
+                        'available' => $count > 0
+                    ];
+                }
+
+                break;
+            }
         }
 
         return $slots;

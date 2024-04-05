@@ -41,6 +41,17 @@ class DashboardController extends Controller
     }
 
     /**
+     * Booked counters
+     * 
+     */
+    public function bookedCounters(Request $request)
+    {
+        return response()->json([
+            'data' => DashboardService::amountBookedCounters($request)
+        ]);
+    }
+
+    /**
      * Total bookings 
      * 
      */
@@ -59,6 +70,17 @@ class DashboardController extends Controller
     {
         return response()->json([
             'data' => DashboardService::bookingServices($request)
+        ]);
+    }
+
+    /**
+     * Booking addon services
+     * 
+     */
+    public function bookingAddon(Request $request)
+    {
+        return response()->json([
+            'data' => DashboardService::bookingAddonServices($request)
         ]);
     }
 }

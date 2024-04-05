@@ -162,10 +162,9 @@ class BuyController extends Controller
                   {
                     $subject = 'booking-edit';
                     $order = $original_booking->order;
-                    $order->update([
-                        'status' => Order::STATUS_UPDATING,
-                        'data' => json_encode(Arr::except($request->all(), 'additional_payload.available_days'))
-                    ]);
+                    $order->status = Order::STATUS_UPDATING;
+                    $order->data = Arr::except($request->all(), 'additional_payload.available_days');
+                    $order->save();
                   }
                   else
                   {

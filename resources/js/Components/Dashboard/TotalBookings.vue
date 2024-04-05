@@ -46,7 +46,7 @@ const legend = ref([
     {value: 0, percent: 0, key: 'todo', label: 'Todo', bg: '#519ACA'},
     {value: 0, percent: 0, key: 'progress', label: 'In progress', bg: '#F8AB51'},
     {value: 0, percent: 0, key: 'ended', label: 'Terminati', bg: '#6BC198'},
-    {value: 0, percent: 0, key: 'canceled', label: 'Cancellati', bg: '#E5414B'},
+    {value: 0, percent: 0, key: 'cancelled', label: 'Cancellati', bg: '#E5414B'},
     {value: 0, percent: 0, key: 'not_shown', label: 'Non presentati', bg: '#444291'},
     {value: 0, percent: 0, key: 'not_executed', label: 'Non eseguiti', bg: '#656e87'},
 ]);

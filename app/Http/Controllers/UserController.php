@@ -181,4 +181,21 @@ class UserController extends Controller
     {
         return User::exportAndDownload($request->toArray());
     }
+
+    /**
+     * Save customer notes
+     * 
+     */
+    public function saveCustomerNotes(User $user, Request $request)
+    {
+        if ($request->has('notes'))
+        {
+            $user->last_notes = $request->notes;
+            $user->last_notes_updated_at = now();
+            $user->last_notes_by_id = Auth::id();
+            $user->saveQuietly();
+        }
+
+        return;
+    }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
-use App\Models\Store;
 use App\Models\Refund;
 use App\Models\Booking;
 use App\Models\Payment;
@@ -39,7 +38,6 @@ class BookingController extends Controller
   public function wizard(Booking $booking = null)
   {
     $data = [];
-    //TODO verficiare che l'if continui a servire oppure può essere eliminato
     if ($booking)
     {
         // primary services
@@ -53,7 +51,7 @@ class BookingController extends Controller
         $data = [
             'originalBooking' => $booking,
             'primaryHairServices' => $primaryHairServices,
-            'addonHairServices' => $addonHairServices,
+            'addonHairServices' => $addonHairServices
         ];
     }
     return Inertia::render('Booking/Wizard', $data);
@@ -132,12 +130,6 @@ class BookingController extends Controller
       return \response()->json(['data' => $services]);
   }
 
-    public function stylistAvailable(Store $store)
-    {
-        $stylists = User::stylists()->orderby('name');
-        return \response()->json(['data' => $stylists]);
-    }
-
   /**
    * Check availability for the service
    *
@@ -158,7 +150,7 @@ class BookingController extends Controller
   public function checkAvailabilitySingle(Request $request)
   {
     $data = BookingService::checkAvailabilitySingle($request);
-    return Redirect::back()->with('flash_data', $data); 
+    return \response()->json($data); 
   }
 
   /**
@@ -513,5 +505,20 @@ class BookingController extends Controller
     $booking->save();
     return Redirect::back()
           ->with('success', __("Stato aggiornato"));
+  }
+
+  /**
+   * Save booking notes
+   * 
+   */
+  public function saveBookingNotes(Booking $booking, Request $request)
+  {
+    if ($request->has('notes'))
+    {
+      $booking->stylist_notes = $request->notes;
+      $booking->saveQuietly();
+    }
+
+    return;
   }
 }

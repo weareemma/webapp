@@ -96,7 +96,9 @@ class TestController extends Controller
 
     public function availability(Store $store)
     {
-        $store_availability_all = AvailabilityService::flow($store, null, true);
+        $start = now()->startOfDay();
+        $end = $start->copy()->addWeeks(AvailabilityService::getWeeksWindow());
+        $store_availability_all = AvailabilityService::flow($store,$start, $end, null, true);
 
         dd(
             '===> Store', $store->name,

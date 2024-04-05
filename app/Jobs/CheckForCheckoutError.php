@@ -40,7 +40,7 @@ class CheckForCheckoutError implements ShouldQueue
             $orders = Order::query()
                 ->whereHas('payments')
                 ->where('status', Order::STATUS_PENDING)
-                ->whereDate('created_at', '>', now()->subDays(7))
+                ->whereBetween('created_at', [now()->subDays(7), now()->subMinutes(20)])
                 ->get();
 
             foreach ($orders as $order)

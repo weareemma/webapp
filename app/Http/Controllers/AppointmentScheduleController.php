@@ -265,22 +265,30 @@ class AppointmentScheduleController extends Controller
       ->when(isset($request['status']), function($q) use ($request) {
           if ($request['status'] == 'not_executed')
           {
-              $now = now();
-              $q->where('status', 'todo')
-              ->whereDate('date', '<', $now)
-              ->orWhere(function ($q) use ($now) {
-                  $q->whereDate('date', '=', $now)
-                      ->where('start', '<', $now->format('H:i:s'));
-              });
+            $q
+            ->where('status', 'todo')
+            ->where(function ($q) {
+                $now = now();
+                $q
+                ->whereDate('date', '<', $now)
+                ->orWhere(function ($q) use ($now) {
+                    $q->whereDate('date', '=', $now)
+                        ->where('start', '<', $now->format('H:i:s'));
+                });
+            });
           }
           elseif($request['status'] == 'todo')
           {
-            $now = now();
-              $q->where('status', 'todo')
-              ->whereDate('date', '>', $now)
-              ->orWhere(function ($q) use ($now) {
-                  $q->whereDate('date', '=', $now)
-                      ->where('start', '>', $now->format('H:i:s'));
+            $q
+              ->where('status', 'todo')
+              ->where(function ($q) {
+                  $now = now();
+                  $q
+                  ->whereDate('date', '>', $now)
+                  ->orWhere(function ($q) use ($now) {
+                      $q->whereDate('date', '=', $now)
+                          ->where('start', '>', $now->format('H:i:s'));
+                  });
               });
           }
           else
@@ -300,7 +308,12 @@ class AppointmentScheduleController extends Controller
       ->when(isset($request['online']), function($q) use ($request) {
           $q->whereHas('payments', function($q) use ($request) {
               $q->where('method', ($request['online'] == 'store') ? 'cash' : 'stripe');
-          });
+          })
+            ->orWhereHas('order', function ($q) use ($request) {
+              $q->whereHas('payments', function($q) use ($request) {
+                $q->where('method', ($request['online'] == 'store') ? 'cash' : 'stripe');
+              });
+            });
       })
       ->paginate(config('app.table_pagination_number'))
       ->withQueryString();

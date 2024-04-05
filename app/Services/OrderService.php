@@ -18,9 +18,10 @@ class OrderService {
         // Update user and total
         $order->fill([
             'user_id' => $user->id,
-            'total' => $total,
-            'data' => ($request) ? json_encode(Arr::except($request->all(), 'available_days')) : null
+            'total' => $total
         ]);
+
+        $order->data = ($request) ? Arr::except($request->all(), 'available_days') : null;
 
         if ($total == 0)
         {

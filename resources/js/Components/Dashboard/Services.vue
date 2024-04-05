@@ -11,10 +11,6 @@ const props = defineProps({
 })
 
 const colors = [
-    '#D6DDFD',
-    '#B6C4FD',
-    '#859BF8',
-    '#4B64E4',
     "#dbeafe",
     "#bfdbfe",
     "#93c5fd",
@@ -30,6 +26,15 @@ const colors = [
     "#47AA5A",
     "#267D37",
     "#094815",
+    "#d0304a",
+    "#801022",
+    "#570513",
+    "#FFEFDC",
+    "#FBCD97",
+    "#F8AB51",
+    "#D48323",
+    "#8E4D00",
+    "#8dffe7",
 ]
 
 onMounted(() => {
@@ -47,7 +52,7 @@ const updateData = () => {
             params: {
                 from: props.from,
                 to: props.to,
-                store: props.store,
+                store: props.stores,
                 status: props.status,
             }
         })

@@ -9,6 +9,7 @@ import {useForm} from "@inertiajs/inertia-vue3";
 import helpers from "../../../helpers";
 import PhotoUploader from "@/Components/General/PhotoUploader.vue";
 import _ from "lodash";
+import axios from "axios";
 
 const props = defineProps({
   booking: Object,
@@ -121,6 +122,31 @@ function setNotShown()
   })
 }
 
+const customerNotes = ref(props.booking.customer?.last_notes ?? '');
+const bookingNotes = ref(props.booking.stylist_notes ?? '');
+const saveCustomerNotes = () => {
+  axios.post(route('notes.customer', props.booking.customer.id), {
+    notes: customerNotes.value
+  })
+  .then(() => {
+    helpers.flash({
+        type: 'success',
+        message: 'Note salvate'
+      });
+  });
+}
+const saveBookingNotes = () => {
+  axios.post(route('notes.booking', props.booking.id), {
+    notes: bookingNotes.value
+  })
+  .then(() => {
+    helpers.flash({
+        type: 'success',
+        message: 'Note salvate'
+      });
+  });
+}
+
 </script>
 
 <template>
@@ -191,18 +217,29 @@ function setNotShown()
               </div>
             </bb-modal>
 
-            <div v-if="booking.stylist_notes" class="mt-4">
-              <p class="text-sm text-bb-gray-700 col-span-1">NOTE APPUNTAMENTO</p>
-              <p class="text-bb-gray-800 inline-block col-span-7">{{booking.stylist_notes}}</p>
-            </div>
+          </div>
 
-            <div v-if="booking.customer?.last_notes" class="mt-4">
-              <p class="text-sm text-bb-gray-700 col-span-1">NOTE CLIENTE</p>
-              <p class="text-bb-gray-800 inline-block col-span-7 m-0">{{booking.customer?.last_notes}}</p>
-              <p class="text-bb-gray-600 m-0 text-xs col-span-7">
-                Scritte da {{booking.customer?.last_notes_by?.name}} {{booking.customer?.last_notes_by?.surname}} il {{dayjs(booking.customer?.last_notes_updated_at).format('DD/MM/YYYY')}}
-              </p>
+          <div class="mt-4">
+            <p class="text-sm text-bb-gray-700 col-span-1">NOTE APPUNTAMENTO</p>
+            <div class="flex items-start my-2">
+              <BbTextarea v-model="bookingNotes" class="text-sm"/>
+              <bb-button primary class="py-1 px-2 ml-2 text-xs" @click="saveBookingNotes">
+                Salva
+              </bb-button>
             </div>
+          </div>
+
+          <div class="mt-4" v-if="booking.is_father">
+            <p class="text-sm text-bb-gray-700 col-span-1">NOTE CLIENTE</p>
+            <div class="flex items-start my-2">
+              <BbTextarea v-model="customerNotes" class="text-sm"/>
+              <bb-button primary class="py-1 px-2 ml-2 text-xs" @click="saveCustomerNotes">
+                Salva
+              </bb-button>
+            </div>
+            <p class="text-bb-gray-600 m-0 text-xs col-span-7">
+              Scritte da {{booking.customer?.last_notes_by?.name}} {{booking.customer?.last_notes_by?.surname}} il {{dayjs(booking.customer?.last_notes_updated_at).format('DD/MM/YYYY')}}
+            </p>
           </div>
 
 

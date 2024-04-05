@@ -24,13 +24,13 @@ class DashboardService
         if ($request->input('from'))
         {
             $from = SupportCarbon::createFromFormat('d/m/Y', $request->input('from'));
-            $new = $users->where('created_at', '>=', $from);
+            $new = $new->where('created_at', '>=', $from);
         }
 
         if ($request->input('to'))
         {
             $to = SupportCarbon::createFromFormat('d/m/Y', $request->input('to'));
-            $new = $users->where('created_at', '<=', $to);
+            $new = $new->where('created_at', '<=', $to);
         }
 
         $data = [
@@ -55,11 +55,9 @@ class DashboardService
         ];
 
         $bookings = Booking::query()
+            ->withCanceled()
             ->when($request->has('store'), function ($q) use ($request) {
                 $q->whereIn('store_id', $request->input('store'));
-            })
-            ->when($request->has('status'), function ($q) use ($request) {
-                $q->where('status', $request->input('status'));
             })
             ->when($request->has('from') && $request->from, function ($q) use ($request) {
                 $from = SupportCarbon::createFromFormat('d/m/Y', $request->from);
@@ -70,6 +68,11 @@ class DashboardService
                 $q->where('date', '<=', $to);
             })
             ->get();
+
+        if ($request->has('status'))
+        {
+            $bookings = $bookings->whereIn('status', $request->input('status'));
+        }
 
         $data['amount'] = $bookings->sum('total_net_price_original');
 
@@ -93,6 +96,41 @@ class DashboardService
     }
 
     /**
+     * Amount booked counters
+     * 
+     */
+    public static function amountBookedCounters(Request $request)
+    {
+        $data = [
+            'booked' => 0
+        ];
+
+        $bookings = Booking::query()
+            ->withCanceled()
+            ->when($request->has('store'), function ($q) use ($request) {
+                $q->whereIn('store_id', $request->input('store'));
+            })
+            ->when($request->has('from') && $request->from, function ($q) use ($request) {
+                $from = SupportCarbon::createFromFormat('d/m/Y', $request->from);
+                $q->where('created_at', '>=', $from);
+            })
+            ->when($request->has('to') && $request->to, function ($q) use ($request) {
+                $to = SupportCarbon::createFromFormat('d/m/Y', $request->to);
+                $q->where('created_at', '<=', $to);
+            })
+            ->get();
+
+        if ($request->has('status'))
+        {
+            $bookings = $bookings->whereIn('status', $request->input('status'));
+        }
+
+        $data['booked'] = $bookings->count();
+
+        return $data;
+    }
+
+    /**
      * Total bookings counters
      * 
      */
@@ -100,17 +138,18 @@ class DashboardService
     {
         $data = [
             'chart' => [
-                'todo' => 123,
-                'progress' => 2,
-                'ended' => 321,
-                'canceled' => 34,
-                'not_shown' => 3,
-                'not_executed' => 6,
+                'todo' => 0,
+                'progress' => 0,
+                'ended' => 0,
+                'cancelled' => 0,
+                'not_shown' => 0,
+                'not_executed' => 0,
             ],
-            'total' => 145
+            'total' => 0
         ];
 
         $bookings = Booking::query()
+            ->withCanceled()
             ->when($request->has('store'), function ($q) use ($request) {
                 $q->whereIn('store_id', $request->input('store'));
             })
@@ -126,7 +165,7 @@ class DashboardService
 
         foreach (Booking::STATUS_LABELS as $key => $label)
         {
-            $data['chart'][$key] = $bookings->where('status', $key)->count();
+            $data['chart'][$key] = $bookings->whereIn('status', $key)->count();
         }
 
         $data['total'] = $bookings->count();
@@ -150,11 +189,9 @@ class DashboardService
         $primaries = [];
 
         $bookings = Booking::query()
+            ->withCanceled()
             ->when($request->has('store'), function ($q) use ($request) {
                 $q->whereIn('store_id', $request->input('store'));
-            })
-            ->when($request->has('status'), function ($q) use ($request) {
-                $q->where('status', $request->input('status'));
             })
             ->when($request->has('from') && $request->from, function ($q) use ($request) {
                 $from = SupportCarbon::createFromFormat('d/m/Y', $request->from);
@@ -165,6 +202,11 @@ class DashboardService
                 $q->where('date', '<=', $to);
             })
             ->get();
+
+        if ($request->has('status'))
+        {
+            $bookings = $bookings->whereIn('status', $request->input('status'));
+        }
 
         foreach ($bookings as $booking)
         {
@@ -187,4 +229,61 @@ class DashboardService
 
         return $data;
     }
+
+    /**
+     * Booking addon services
+     * 
+     */
+    public static function bookingAddonServices(Request $request)
+    {
+        $data = [
+            'chartData' => [
+                'labels' => [],
+                'data' => []
+            ]
+        ];
+
+        $primaries = [];
+
+        $bookings = Booking::query()
+            ->withCanceled()
+            ->when($request->has('store'), function ($q) use ($request) {
+                $q->whereIn('store_id', $request->input('store'));
+            })
+            ->when($request->has('from') && $request->from, function ($q) use ($request) {
+                $from = SupportCarbon::createFromFormat('d/m/Y', $request->from);
+                $q->where('date', '>=', $from);
+            })
+            ->when($request->has('to') && $request->to, function ($q) use ($request) {
+                $to = SupportCarbon::createFromFormat('d/m/Y', $request->to);
+                $q->where('date', '<=', $to);
+            })
+            ->get();
+
+        if ($request->has('status'))
+        {
+            $bookings = $bookings->whereIn('status', $request->input('status'));
+        }
+
+        foreach ($bookings as $booking)
+        {
+            foreach ($booking->slots ?? [] as $slot)
+            {
+                if (($slot['service']['level'] ?? 'primary') !== 'primary')
+                {
+                    (array_key_exists($slot['service']['title'], $primaries)) 
+                        ? $primaries[$slot['service']['title']]++
+                        : $primaries[$slot['service']['title']] = 1;
+                }
+            }
+        }
+
+        foreach ($primaries as $key => $count)
+        {
+            $data['chartData']['labels'][] = $key;
+            $data['chartData']['data'][] = $count;
+        }
+
+        return $data;
+    } 
 }

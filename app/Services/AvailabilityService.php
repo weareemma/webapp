@@ -28,7 +28,7 @@ class AvailabilityService
      * Get store availability for booking
      * 
      */
-    public static function getStoreAvailabilityForBooking(Store $store, Request $request)
+    public static function getStoreAvailabilityForBooking(Store $store, Request $request, Carbon $start = null, int $days = null)
     {
         if (is_null($store)) return [];
 
@@ -36,7 +36,9 @@ class AvailabilityService
         $booking_slots = self::getBookingSlots($request);
 
         // Main flow
-        return self::flow($store, $booking_slots);
+        $start = ($start) ? $start->startOfDay() : now()->startOfDay();
+        $end = $start->copy()->addDays($days ?? (self::getWeeksWindow() * 7));
+        return self::flow($store, $start, $end, $booking_slots);
     }
 
     /**
@@ -210,10 +212,8 @@ class AvailabilityService
      * main flow
      * 
      */
-    public static function flow(Store $store, $booking_slots = null, $log = false)
+    public static function flow(Store $store, Carbon $start, Carbon $end, $booking_slots = null, $log = false)
     {
-        $start = now()->startOfDay();
-        $end = $start->copy()->addWeeks(self::getWeeksWindow());
         $period = self::buildPeriod($start, $end);
 
         $booking_flow = $booking_slots && is_array($booking_slots);
@@ -537,7 +537,7 @@ class AvailabilityService
      * Get calendar weeks window
      * 
      */
-    private static function getWeeksWindow()
+    public static function getWeeksWindow()
     {
         $settings = Setting::getValidSettings();
         if ($settings) {

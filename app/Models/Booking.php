@@ -38,7 +38,7 @@ class Booking extends Model implements HasMedia
   const STATUS_TODO = 'todo';
   const STATUS_PROGRESS = 'progress';
   const STATUS_ENDED = 'ended';
-  const STATUS_CANCELED = 'canceled';
+  const STATUS_CANCELED = 'cancelled';
   const STATUS_NOT_EXECUTED = 'not_executed';
   const STATUS_NOT_SHOWN = 'not_shown';
   const STATUS_LABELS = [
@@ -411,8 +411,34 @@ class Booking extends Model implements HasMedia
   public function scopeWithSearch($query, $searchQuery)
   {
     if (!$searchQuery) return $query;
-    return $query->whereRelation('customer', 'name', 'like', "%$searchQuery%")
-      ->orWhereRelation('customer', 'surname', 'like', "%$searchQuery%");
+
+    $searches = explode(' ', $searchQuery);
+    
+    $query
+        ->where(function ($q) use ($searches) {
+            $q
+            ->when(count($searches) > 1, function ($q) use ($searches) {
+                $q
+                    ->where(function ($q) use ($searches) {
+                        $q
+                            ->whereRelation('customer', 'surname', 'like', "%$searches[0]%")
+                            ->WhereRelation('customer', 'name', 'like', "%$searches[1]%");
+                    })
+                    ->orWhere(function ($q) use ($searches) {
+                        $q
+                            ->whereRelation('customer', 'surname', 'like', "%$searches[1]%")
+                            ->WhereRelation('customer', 'name', 'like', "%$searches[0]%");
+                    });
+            })
+            ->when(count($searches) == 1, function ($q) use ($searches) {
+                    $q
+                        ->whereRelation('customer', 'surname', 'like', "%$searches[0]%")
+                        ->orWhereRelation('customer', 'name', 'like', "%$searches[0]%");
+            });
+        });
+        
+
+    return $query;
   }
 
   public function scopeOwned($query)
@@ -857,23 +883,33 @@ class Booking extends Model implements HasMedia
             ->when(isset($request['status']), function($q) use ($request) {
                 if ($request['status'] == 'not_executed')
                 {
-                    $now = now();
-                    $q->where('status', 'todo')
-                    ->whereDate('date', '<', $now)
-                    ->orWhere(function ($q) use ($now) {
-                        $q->whereDate('date', '=', $now)
-                            ->where('start', '<', $now->format('H:i:s'));
+                    $q
+                    ->where('status', 'todo')
+                    ->where(function ($q) {
+                        $now = now();
+                        $q
+                        ->whereDate('date', '<', $now)
+                        ->orWhere(function ($q) use ($now) {
+                            $q->whereDate('date', '=', $now)
+                                ->where('start', '<', $now->format('H:i:s'));
+                        });
                     });
+                    
                 }
                 elseif($request['status'] == 'todo')
                 {
-                  $now = now();
-                    $q->where('status', 'todo')
-                    ->whereDate('date', '>', $now)
-                    ->orWhere(function ($q) use ($now) {
-                        $q->whereDate('date', '=', $now)
-                            ->where('start', '>', $now->format('H:i:s'));
+                    $q
+                    ->where('status', 'todo')
+                    ->where(function ($q) {
+                        $now = now();
+                        $q
+                        ->whereDate('date', '>', $now)
+                        ->orWhere(function ($q) use ($now) {
+                            $q->whereDate('date', '=', $now)
+                                ->where('start', '>', $now->format('H:i:s'));
+                        });
                     });
+                    
                 }
                 else
                 {

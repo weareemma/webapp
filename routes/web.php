@@ -10,6 +10,8 @@ use App\Http\Controllers\DefaultScheduleController;
 use App\Http\Controllers\SpecificScheduleController;
 use App\Http\Controllers\StylistsController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
+use App\Models\Booking;
 use App\Models\DefaultSchedule;
 use App\Models\HairService;
 use App\Models\SpecificSchedule;
@@ -105,7 +107,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
       Route::prefix('hair-services')->name('hair-services.')->group(function () {
         Route::post('/primary', [\App\Http\Controllers\BookingController::class, 'primaryHairServices'])->name('primary');
         Route::post('/addon/{primaryService}', [\App\Http\Controllers\BookingController::class, 'addonHairServices'])->name('addon');
-        Route::post('/get-stylists/{store}', [\App\Http\Controllers\BookingController::class, 'stylistAvailable'])->name('stylists');
         Route::post('/check', [\App\Http\Controllers\BookingController::class, 'checkAvailability'])->name('check-availability');
       });
       // get infos
@@ -144,12 +145,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('dashboard/totalBookings', [DashboardController::class, 'totalBookings'])->name('admin.dashboard.totalBookings');
     Route::get('dashboard/bookingServices', [DashboardController::class, 'bookingServices'])->name('admin.dashboard.bookingServices');
+    Route::get('dashboard/bookingAddonServices', [DashboardController::class, 'bookingAddon'])->name('admin.dashboard.bookingAddonServices');
     Route::get('dashboard/counters', [DashboardController::class, 'counters'])->name('admin.dashboard.counters');
+    Route::get('dashboard/bookedCounters', [DashboardController::class, 'bookedCounters'])->name('admin.dashboard.bookedCounters');
     Route::get('dashboard/users', [DashboardController::class, 'users'])->name('admin.dashboard.users');
   });
 
   // Admin Routes
   Route::group(['middleware' => ['role:manager|admin']], function () {
+
+    Route::post('checkAvailability', [BookingController::class, 'checkAvailabilitySingle'])->name('checkAvailability.single');
 
     // Checkout error
     Route::get('checkoutErrors', [CheckoutErrorController::class, 'index'])->name('checkoutError.index');
@@ -294,6 +299,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/customer/show/{customer}', [\App\Http\Controllers\StylistsController::class, 'customerShow'])->name('customer.show');
     Route::get('/profile', [\App\Http\Controllers\StylistsController::class, 'profile'])->name('profile');
     Route::post('/profile/update', [\App\Http\Controllers\StylistsController::class, 'profileUpdate'])->name('profile.update');
+  });
+
+  // Notes
+  Route::middleware(['role:stylist|admin'])->prefix('/notes')->name('notes.')->group(function () {
+    Route::post('customer/{user}/notes', [UserController::class, 'saveCustomerNotes'])->name('customer')->withTrashed();
+    Route::post('booking/{booking}/notes', [BookingController::class, 'saveBookingNotes'])->name('booking')->withTrashed();
   });
 });
 
