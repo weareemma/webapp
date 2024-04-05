@@ -317,7 +317,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
   }
   public static function stylists()
   {
-    return self::allUsers()->role(self::ROLE_STYLIST)->get();
+    return self::allUsers()->role(self::ROLE_STYLIST)->orderBy('users.name', 'asc')->get();
   }
   public static function customers()
   {

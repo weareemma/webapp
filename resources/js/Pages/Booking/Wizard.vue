@@ -68,6 +68,10 @@
               <StepAddons />
             </template>
 
+            <template #step_stylist>
+              <StepStylist />
+            </template>
+
             <!-- step 5 -->
             <template #step_calendar>
               <StepCalendar />
@@ -111,6 +115,7 @@ import StepPeople from "./Wizard/StepPeople.vue";
 import StepPrimaryHairService from "./Wizard/StepPrimaryHairService.vue";
 import StepUpdo from "./Wizard/StepUpdo.vue";
 import StepAddons from "./Wizard/StepAddons.vue";
+import StepStylist from "./Wizard/StepStylist.vue";
 import StepCalendar from "./Wizard/StepCalendar.vue";
 import StepCheckout from "./Wizard/StepCheckout.vue";
 import axios from "axios";
@@ -365,6 +370,10 @@ const wizardSteps = computed(() => {
     {
       name: "step_addons",
       title: "Quali add-on?",
+    },
+    {
+      name: "step_stylist",
+      title: "Quale stylist?",
     }
   ];
 
@@ -407,7 +416,8 @@ const menuItems = computed(() => {
     { title: "Numero persone", wizardStep: "step_people" },
     { title: "Servizi", wizardStep: "step_primary_hair_service" },
     { title: "Raccolti", wizardStep: "step_updo" },
-    { title: "Add-on", wizardStep: "step_addons" }
+    { title: "Add-on", wizardStep: "step_addons" },
+    { title: "Stylist", wizardStep: "step_stylist" }
   ];
 
   // if (selectedPrimaryService.value && !selectedPrimaryService.value?.dry_style)
@@ -440,6 +450,12 @@ function getMenuItemData(wizardStep) {
       return '-';
     case "step_addons":
       return "-";
+    case "step_stylist":
+      if (wizardGeneral.value.stylist) {
+        let stylist = wizardGeneral.value.stylists.find(el => el.id === wizardGeneral.value.stylist);
+        return (stylist) ? stylist.full_name : '-';
+      }
+      return null
     case "step_calendar":
       if ((wizardSelection.value.selected_day, wizardSelection.value.selected_slot)) {
         return dayjs(
@@ -554,6 +570,16 @@ function getSidebarData(wizardStep)
         })
       });
       return data;
+
+    case "step_stylist":
+      return [
+        {
+          title: 'pippo',
+          data: [{
+            title: getMenuItemData(wizardStep)
+          }]
+        }
+      ];
 
     case "step_calendar":
       return [

@@ -29,6 +29,7 @@ export const useWizardStore = defineStore('wizard', () => {
         discount_code: null,
         discount: null,
         booking_infos: null,
+        stylists: null,
         stylist: null,
         with_refund: false,
         subscribed: false,
@@ -38,7 +39,6 @@ export const useWizardStore = defineStore('wizard', () => {
 
     const wizardSelection = ref({
         customer_id: null,
-        stylist: false,
         store_id: null,
         washing_stations: 0,
         multiple: false,
@@ -73,6 +73,7 @@ export const useWizardStore = defineStore('wizard', () => {
             step_primary_hair_service: !! wizardSelection.value.store_id && !! wizardSelection.value.store_id,
             step_updo: !! wizardSelection.value.store_id && !! wizardSelection.value.store_id && wizardCheckForPrimaryService(),
             step_addons: !! wizardSelection.value.store_id && !! wizardSelection.value.store_id && wizardCheckForPrimaryService(),
+            step_stylist: !!wizardSelection.value.store_id && wizardCheckForPrimaryService(),
             step_calendar: !! wizardSelection.value.store_id && !! wizardSelection.value.store_id && wizardCheckForPrimaryService(),
             step_checkout: !! wizardSelection.value.store_id && !! wizardSelection.value.store_id && wizardCheckForPrimaryService() && !! wizardSelection.value.selected_day && !! wizardSelection.value.selected_slot
         }
@@ -216,7 +217,13 @@ export const useWizardStore = defineStore('wizard', () => {
                     }
                 });
                 break;
-
+            case 'step_addons':
+                await axios.post(route("booking.hair-services.stylists", data.storeId)).then((response) => {
+                    wizardGeneral.value.stylists = response.data.data
+                }).catch((err) => {
+                    console.error(err)
+                });
+                break;
             default:
                 break;
         }
