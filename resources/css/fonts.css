@@ -1,0 +1,25 @@
+/** Rubik **/
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;800&display=swap');
+/** 
+@font-face {
+  font-family: "Rubik";
+  src: url(/public/fonts/Rubik/static/Rubik-Regular.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rubik";
+  src: url(/public/fonts/Rubik/static/Rubik-Bold.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rubik";
+  src: url(/public/fonts/Rubik/static/Rubik-ExtraBold.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+**/

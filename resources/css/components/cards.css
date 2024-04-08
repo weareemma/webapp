@@ -1,0 +1,13 @@
+@layer components {
+    .bb-card {
+        @apply bg-white p-3  sm:rounded-lg border-0 rounded-2xl;
+    }
+
+    .bb-square-card {
+        @apply flex flex-col items-center space-y-4 py-6 px-12 rounded-2xl;
+    }
+
+    .bb-card-stylist {
+        @apply bg-white p-3 border-0 rounded-2xl shadow-md;
+    }
+}

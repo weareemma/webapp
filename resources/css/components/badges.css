@@ -1,0 +1,89 @@
+@layer components {
+    /* base */
+    .bb-badge {
+        @apply px-3 py-1 rounded-full cursor-default border;
+    }
+
+    .bb-badge-fill {
+        @apply px-3 rounded text-white cursor-default;
+    }
+
+    /* primary */
+    .bb-badge-primary {
+        @apply bb-badge bg-bb-primary-100 text-bb-primary border-bb-primary;
+    }
+
+    .bb-badge-fill-primary {
+        @apply bb-badge-fill bg-bb-primary;
+    }
+
+    /* secondary */
+    .bb-badge-secondary {
+        @apply bb-badge bg-bb-gray-100 text-bb-gray-600 border-0;
+    }
+
+    .bb-badge-fill-secondary {
+        @apply bb-badge-fill bg-bb-secondary;
+    }
+
+    /* secondary light */
+    .bb-badge-secondary-light {
+        @apply bb-badge bg-bb-black-100 text-bb-black-500 border-bb-gray-400;
+    }
+
+    .bb-badge-fill-secondary-light {
+        @apply bb-badge-fill bg-bb-secondary-light;
+    }
+
+    /* success */
+    .bb-badge-success {
+        @apply bb-badge bg-bb-success-100 text-bb-green-700 border-0;
+    }
+
+    .bb-badge-fill-success {
+        @apply bb-badge-fill bg-bb-success;
+    }
+
+    /* warning */
+    .bb-badge-warning {
+        @apply bb-badge bg-bb-warning-100 text-bb-warning-300 border-bb-warning-300;
+    }
+
+    .bb-badge-fill-warning {
+        @apply bb-badge-fill bg-bb-warning;
+    }
+
+    /* dangerine */
+    .bb-badge-dangerine {
+        @apply bb-badge bg-bb-dangerine-100 text-bb-dangerine-300 border-bb-dangerine-300;
+    }
+
+    .bb-badge-fill-dangerine {
+        @apply bb-badge-fill bg-bb-dangerine;
+    }
+
+    /* danger */
+    .bb-badge-danger {
+        @apply bb-badge bg-bb-danger-100 text-bb-danger-300 border-0;
+    }
+
+    .bb-badge-fill-danger {
+        @apply bb-badge-fill bg-bb-danger;
+    }
+
+    /* ball */
+    .bb-ball {
+        @apply rounded-full h-5 w-5 text-white text-xs text-center leading-5 pr-px;
+    }
+
+    .bb-badge-progress
+    {
+        @apply bg-[#E3FCFF] text-[#549EA6];
+    }
+
+    .bb-badge-ended
+    {
+        @apply bg-bb-green-100 text-bb-green-700;
+    }
+
+}

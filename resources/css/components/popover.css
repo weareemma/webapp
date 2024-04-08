@@ -1,0 +1,17 @@
+@layer components {
+    .bb-popover-base {
+        @apply rounded px-3 py-2 m-1 text-sm max-w-xs font-normal;
+    }
+
+    .bb-popover-white {
+        @apply bb-popover-base bg-white shadow-lg;
+    }
+
+    .bb-popover {
+        @apply bb-popover-base bg-bb-primary text-white;
+    }
+
+    .bb-popover-inverted {
+        @apply bb-popover-base bg-white text-bb-primary border border-bb-primary;
+    }
+}

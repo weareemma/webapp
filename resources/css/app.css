@@ -1,0 +1,44 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Globals */
+@import "globals.css";
+
+/*!* Variables *!*/
+@import "variables.css";
+
+/*!* Typography *!*/
+@import "fonts.css";
+@import "typography.css";
+
+/*!* Toast *!*/
+@import "toastr/toastr.scss";
+
+/*!* Timepicker *!*/
+@import "vue3-timepicker/dist/VueTimepicker.css";
+
+/*!* Datepicker *!*/
+@import "@vuepic/vue-datepicker/dist/main.css";
+
+/*!* Full Calendar overwrite *!*/
+@import "fullcalendar.css";
+
+@import "./loaderOverlay.css";
+
+/* Components */
+@import "./components/alerts.css";
+@import "./components/badges.css";
+@import "./components/buttons.css";
+@import "./components/cards.css";
+@import "./components/form-control.css";
+@import "./components/info-list.css";
+@import "./components/links.css";
+@import "./components/login.css";
+@import "./components/popover.css";
+@import "./components/select.css";
+@import "./components/stripe.css";
+@import "./components/tab-bar.css";
+@import "./components/table.css";
+@import "./components/uploader.css";
+@import "./components/wizard.css";

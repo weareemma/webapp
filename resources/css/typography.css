@@ -1,0 +1,37 @@
+body {
+    @apply font-sans;
+}
+
+@layer components {
+    .title-commons {
+        @apply font-bold uppercase;
+    }
+
+    .section-title {
+        @apply title-commons font-sans text-base;
+    }
+
+    .title-xs {
+        @apply title-commons text-sm;
+    }
+
+    .title-sm {
+        @apply title-commons text-base;
+    }
+
+    .title-md {
+        @apply title-commons text-2xl;
+    }
+
+    .title-lg {
+        @apply title-commons text-4xl;
+    }
+
+    .title-xl {
+        @apply title-commons text-6xl;
+    }
+
+    .info-label {
+        @apply uppercase text-xs text-bb-black-400;
+    }
+}

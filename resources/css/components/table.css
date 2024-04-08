@@ -1,0 +1,113 @@
+@layer components {
+  .bb-table {
+    .empty {
+      @apply py-12;
+
+      > img {
+        @apply w-40 max-w-full mx-auto mb-6;
+      }
+    }
+
+    h2 {
+      @apply text-xl text-center mx-auto;
+    }
+
+    .table-container {
+      @apply w-full overflow-x-auto;
+    }
+
+    table {
+      @apply min-w-full;
+    }
+
+    thead {
+      @apply border-b border-bb-gray-300;
+    }
+
+    tbody tr {
+      @apply border-b border-bb-gray-200;
+    }
+
+    th {
+      @apply uppercase text-bb-black-500 font-normal text-sm px-4 py-4;
+    }
+
+    th.check {
+      @apply pr-2;
+    }
+
+    &.compact th:first-child,
+    &.compact th:last-child {
+      @apply px-3;
+    }
+
+    td {
+      @apply text-bb-gray-900 px-4 py-4;
+    }
+
+    td.check {
+      @apply pr-2;
+    }
+
+    td:not(.no-truncate) {
+      @apply truncate;
+    }
+
+    &.compact td {
+      @apply py-2 text-sm;
+    }
+
+    &.compact td:first-child,
+    &.compact td:last-child {
+      @apply px-3;
+    }
+
+    th.center,
+    td.center {
+      @apply text-center;
+    }
+
+    th.left,
+    td.left {
+      @apply text-left;
+    }
+
+    th.right,
+    td.right {
+      @apply text-right;
+    }
+
+    td > .actions {
+      @apply h-full flex items-center justify-end space-x-2;
+    }
+
+    td > .actions button {
+      @apply bg-bb-gray-200 text-bb-gray-600 h-7 w-7 rounded p-1 transition-colors hover:text-bb-primary;
+    }
+
+    td > .actions button.restore,
+    td > .actions button.impersonate {
+      @apply hover:text-bb-yellow;
+    }
+
+    td > .actions button.delete {
+      @apply hover:text-bb-danger;
+    }
+
+    .links {
+      @apply py-6 space-x-2 flex justify-end items-center;
+    }
+
+    .links a {
+      @apply font-bold text-sm rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors;
+    }
+
+    .links a:not(.active) {
+      @apply bg-bb-gray-200 hover:bg-bb-primary hover:text-white;
+    }
+
+    .links a.active {
+      @apply bg-bb-primary text-white;
+    }
+  }
+}

@@ -1,0 +1,394 @@
+@layer components {
+    /* button bases */
+    .bb-button {
+        @apply inline-flex font-bold items-center px-[30px] py-[10px] rounded-full border focus:outline-none focus:ring disabled:opacity-25 transition cursor-pointer;
+    }
+
+    .bb-button-rounded {
+        @apply inline-flex font-bold items-center px-[30px] py-[10px] rounded-full border focus:outline-none focus:ring disabled:opacity-25 transition cursor-pointer;
+    }
+
+    .bb-button-icon {
+        @apply inline-flex items-center w-6 h-6 p-1 rounded border focus:outline-none focus:ring disabled:opacity-25 transition cursor-pointer;
+    }
+
+    .bb-button-icon-big {
+        @apply inline-flex items-center w-9 h-9 p-2 rounded-md border focus:outline-none focus:ring disabled:opacity-25 transition cursor-pointer;
+    }
+
+    .bb-button-icon-xl {
+        @apply inline-flex items-center w-[46px] h-[46px] p-2 rounded-md border focus:outline-none focus:ring disabled:opacity-25 transition cursor-pointer;
+    }
+
+    /* button styles */
+    .bb-button-style-primary {
+        @apply text-white bg-bb-primary border-bb-primary hover:bg-bb-primary-700 hover:border-bb-primary-700 active:bg-bb-primary-700 focus:border-white focus:ring-bb-primary-700;
+    }
+
+    .bb-button-style-primary-light {
+        @apply text-bb-primary-700 bg-bb-primary-100 border-bb-primary-100 fill-bb-black-500 hover:fill-bb-primary-100 hover:text-white hover:bg-bb-primary active:text-white active:bg-bb-primary focus:border-white focus:ring-bb-primary;
+    }
+
+    .bb-button-style-primary-outline {
+        @apply text-bb-primary bg-white border-bb-primary hover:text-white hover:bg-bb-primary-lighter active:text-white active:bg-bb-primary focus:border-white focus:ring-bb-primary;
+    }
+
+    .bb-button-style-secondary {
+        @apply text-white bg-bb-secondary border-bb-secondary hover:bg-bb-secondary-700 hover:border-bb-secondary-700 active:bg-bb-secondary-700 focus:border-white focus:ring-bb-secondary-700;
+    }
+
+    .bb-button-style-secondary-light {
+        @apply text-bb-secondary-700 bg-bb-secondary-100 border-bb-secondary-100 hover:text-white hover:bg-bb-secondary active:text-white active:bg-bb-secondary focus:border-white focus:ring-bb-secondary;
+    }
+
+    .bb-button-style-secondary-outline {
+        @apply text-bb-secondary-600 bg-white border-bb-secondary-600 hover:text-white hover:bg-bb-secondary-600 active:text-white active:bg-bb-secondary focus:border-white focus:ring-bb-secondary;
+    }
+
+    .bb-button-style-success {
+        @apply text-white bg-bb-success border-bb-success hover:bg-bb-success-300 hover:border-bb-success-300 active:bg-bb-success-300 focus:border-white focus:ring-bb-success-300;
+    }
+
+    .bb-button-style-success-light {
+        @apply text-bb-success-300 bg-bb-success-100 border-bb-success-100 hover:text-white hover:bg-bb-success active:text-white active:bg-bb-success focus:border-white focus:ring-bb-success;
+    }
+
+    .bb-button-style-success-outline {
+        @apply text-bb-success bg-white border-bb-success hover:text-white hover:bg-bb-success active:text-white active:bg-bb-success focus:border-white focus:ring-bb-success;
+    }
+
+    .bb-button-style-warning {
+        @apply text-white bg-bb-warning border-bb-warning hover:bg-bb-warning-300 hover:border-bb-warning-300 active:bg-bb-warning-300 focus:border-white focus:ring-bb-warning-300;
+    }
+
+    .bb-button-style-warning-light {
+        @apply text-bb-warning-300 bg-bb-warning-100 border-bb-warning-100 hover:text-white hover:bg-bb-warning active:text-white active:bg-bb-warning focus:border-white focus:ring-bb-warning;
+    }
+
+    .bb-button-style-warning-outline {
+        @apply text-bb-warning bg-white border-bb-warning hover:text-white hover:bg-bb-warning active:text-white active:bg-bb-warning focus:border-white focus:ring-bb-warning;
+    }
+
+    .bb-button-style-danger {
+        @apply text-white bg-bb-danger border-bb-danger hover:bg-bb-danger-300 hover:border-bb-danger-300 active:bg-bb-danger-300 focus:border-white focus:ring-bb-danger-300;
+    }
+
+    .bb-button-style-danger-light {
+        @apply text-bb-danger-300 bg-bb-danger-100 border-bb-danger-100 hover:text-white hover:bg-bb-danger active:text-white active:bg-bb-danger focus:border-white focus:ring-bb-danger;
+    }
+
+    .bb-button-style-danger-outline {
+        @apply text-bb-danger bg-white border-bb-danger hover:text-white hover:bg-bb-danger active:text-white active:bg-bb-danger focus:border-white focus:ring-bb-danger;
+    }
+
+    .bb-button-style-filter {
+        @apply rounded-full px-3 bg-white stroke-bb-blue-500 border-0 hover:bg-bb-blue-500 hover:stroke-white
+    }
+
+    /* normal button */
+
+    .bb-button-primary {
+        @apply bb-button bb-button-style-primary;
+    }
+
+    .bb-button-primary-light {
+        @apply bb-button bb-button-style-primary-light;
+    }
+
+    .bb-button-primary-outline {
+        @apply bb-button bb-button-style-primary-outline;
+    }
+
+    .bb-button-secondary {
+        @apply bb-button bb-button-style-secondary;
+    }
+
+    .bb-button-secondary-light {
+        @apply bb-button bb-button-style-secondary-light;
+    }
+
+    .bb-button-secondary-outline {
+        @apply bb-button bb-button-style-secondary-outline;
+    }
+
+    .bb-button-success {
+        @apply bb-button bb-button-style-success;
+    }
+
+    .bb-button-success-light {
+        @apply bb-button bb-button-style-success-light;
+    }
+
+    .bb-button-success-outline {
+        @apply bb-button bb-button-style-success-outline;
+    }
+
+    .bb-button-warning {
+        @apply bb-button bb-button-style-warning;
+    }
+
+    .bb-button-warning-light {
+        @apply bb-button bb-button-style-warning-light;
+    }
+
+    .bb-button-warning-outline {
+        @apply bb-button bb-button-style-warning-outline;
+    }
+
+    .bb-button-danger {
+        @apply bb-button bb-button-style-danger;
+    }
+
+    .bb-button-danger-light {
+        @apply bb-button bb-button-style-danger-light;
+    }
+
+    .bb-button-danger-outline {
+        @apply bb-button bb-button-style-danger-outline;
+    }
+
+    /* rounded button */
+
+    .bb-button-rounded-primary {
+        @apply bb-button-rounded bb-button-style-primary;
+    }
+
+    .bb-button-rounded-primary-light {
+        @apply bb-button-rounded bb-button-style-primary-light;
+    }
+
+    .bb-button-rounded-primary-outline {
+        @apply bb-button-rounded bb-button-style-primary-outline;
+    }
+
+    .bb-button-rounded-secondary {
+        @apply bb-button-rounded bb-button-style-secondary;
+    }
+
+    .bb-button-rounded-secondary-light {
+        @apply bb-button-rounded bb-button-style-secondary-light;
+    }
+
+    .bb-button-rounded-secondary-outline {
+        @apply bb-button-rounded bb-button-style-secondary-outline;
+    }
+
+    .bb-button-rounded-success {
+        @apply bb-button-rounded bb-button-style-success;
+    }
+
+    .bb-button-rounded-success-light {
+        @apply bb-button-rounded bb-button-style-success-light;
+    }
+
+    .bb-button-rounded-success-outline {
+        @apply bb-button-rounded bb-button-style-success-outline;
+    }
+
+    .bb-button-rounded-warning {
+        @apply bb-button-rounded bb-button-style-warning;
+    }
+
+    .bb-button-rounded-warning-light {
+        @apply bb-button-rounded bb-button-style-warning-light;
+    }
+
+    .bb-button-rounded-warning-outline {
+        @apply bb-button-rounded bb-button-style-warning-outline;
+    }
+
+    .bb-button-rounded-danger {
+        @apply bb-button-rounded bb-button-style-danger;
+    }
+
+    .bb-button-rounded-danger-light {
+        @apply bb-button-rounded bb-button-style-danger-light;
+    }
+
+    .bb-button-rounded-danger-outline {
+        @apply bb-button-rounded bb-button-style-danger-outline;
+    }
+
+    /* icon button */
+    .bb-button-icon-primary {
+        @apply bb-button-icon bb-button-style-primary;
+    }
+
+    .bb-button-icon-primary-light {
+        @apply bb-button-icon bb-button-style-primary-light;
+    }
+
+    .bb-button-icon-primary-outline {
+        @apply bb-button-icon bb-button-style-primary-outline;
+    }
+
+    .bb-button-icon-secondary {
+        @apply bb-button-icon bb-button-style-secondary;
+    }
+
+    .bb-button-icon-secondary-light {
+        @apply bb-button-icon bb-button-style-secondary-light;
+    }
+
+    .bb-button-icon-secondary-outline {
+        @apply bb-button-icon bb-button-style-secondary-outline;
+    }
+
+    .bb-button-icon-success {
+        @apply bb-button-icon bb-button-style-success;
+    }
+
+    .bb-button-icon-success-light {
+        @apply bb-button-icon bb-button-style-success-light;
+    }
+
+    .bb-button-icon-success-outline {
+        @apply bb-button-icon bb-button-style-success-outline;
+    }
+
+    .bb-button-icon-warning {
+        @apply bb-button-icon bb-button-style-warning;
+    }
+
+    .bb-button-icon-warning-light {
+        @apply bb-button-icon bb-button-style-warning-light;
+    }
+
+    .bb-button-icon-warning-outline {
+        @apply bb-button-icon bb-button-style-warning-outline;
+    }
+
+    .bb-button-icon-danger {
+        @apply bb-button-icon bb-button-style-danger;
+    }
+
+    .bb-button-icon-danger-light {
+        @apply bb-button-icon bb-button-style-danger-light;
+    }
+
+    .bb-button-icon-danger-outline {
+        @apply bb-button-icon bb-button-style-danger-outline;
+    }
+
+    /* icon button big */
+    .bb-button-icon-big-primary {
+        @apply bb-button-icon-big bb-button-style-primary;
+    }
+
+    .bb-button-icon-big-primary-light {
+        @apply bb-button-icon-big bb-button-style-primary-light;
+    }
+
+    .bb-button-icon-big-primary-outline {
+        @apply bb-button-icon-big bb-button-style-primary-outline;
+    }
+
+    .bb-button-icon-big-secondary {
+        @apply bb-button-icon-big bb-button-style-secondary;
+    }
+
+    .bb-button-icon-big-secondary-light {
+        @apply bb-button-icon-big bb-button-style-secondary-light;
+    }
+
+    .bb-button-icon-big-secondary-outline {
+        @apply bb-button-icon-big bb-button-style-secondary-outline;
+    }
+
+    .bb-button-icon-big-success {
+        @apply bb-button-icon-big bb-button-style-success;
+    }
+
+    .bb-button-icon-big-success-light {
+        @apply bb-button-icon-big bb-button-style-success-light;
+    }
+
+    .bb-button-icon-big-success-outline {
+        @apply bb-button-icon-big bb-button-style-success-outline;
+    }
+
+    .bb-button-icon-big-warning {
+        @apply bb-button-icon-big bb-button-style-warning;
+    }
+
+    .bb-button-icon-big-warning-light {
+        @apply bb-button-icon-big bb-button-style-warning-light;
+    }
+
+    .bb-button-icon-big-warning-outline {
+        @apply bb-button-icon-big bb-button-style-warning-outline;
+    }
+
+    .bb-button-icon-big-danger {
+        @apply bb-button-icon-big bb-button-style-danger;
+    }
+
+    .bb-button-icon-big-danger-light {
+        @apply bb-button-icon-big bb-button-style-danger-light;
+    }
+
+    .bb-button-icon-big-danger-outline {
+        @apply bb-button-icon-big bb-button-style-danger-outline;
+    }
+
+    /* icon button xl */
+    .bb-button-icon-xl-primary {
+        @apply bb-button-icon-xl bb-button-style-primary;
+    }
+
+    .bb-button-icon-xl-primary-light {
+        @apply bb-button-icon-xl bb-button-style-primary-light;
+    }
+
+    .bb-button-icon-xl-primary-outline {
+        @apply bb-button-icon-xl bb-button-style-primary-outline;
+    }
+
+    .bb-button-icon-xl-secondary {
+        @apply bb-button-icon-xl bb-button-style-secondary;
+    }
+
+    .bb-button-icon-xl-secondary-light {
+        @apply bb-button-icon-xl bb-button-style-secondary-light;
+    }
+
+    .bb-button-icon-xl-secondary-outline {
+        @apply bb-button-icon-xl bb-button-style-secondary-outline;
+    }
+
+    .bb-button-icon-xl-success {
+        @apply bb-button-icon-xl bb-button-style-success;
+    }
+
+    .bb-button-icon-xl-success-light {
+        @apply bb-button-icon-xl bb-button-style-success-light;
+    }
+
+    .bb-button-icon-xl-success-outline {
+        @apply bb-button-icon-xl bb-button-style-success-outline;
+    }
+
+    .bb-button-icon-xl-warning {
+        @apply bb-button-icon-xl bb-button-style-warning;
+    }
+
+    .bb-button-icon-xl-warning-light {
+        @apply bb-button-icon-xl bb-button-style-warning-light;
+    }
+
+    .bb-button-icon-xl-warning-outline {
+        @apply bb-button-icon-xl bb-button-style-warning-outline;
+    }
+
+    .bb-button-icon-xl-danger {
+        @apply bb-button-icon-xl bb-button-style-danger;
+    }
+
+    .bb-button-icon-xl-danger-light {
+        @apply bb-button-icon-xl bb-button-style-danger-light;
+    }
+
+    .bb-button-icon-xl-danger-outline {
+        @apply bb-button-icon-xl bb-button-style-danger-outline;
+    }
+}

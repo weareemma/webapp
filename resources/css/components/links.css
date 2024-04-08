@@ -1,0 +1,25 @@
+@layer components {
+    .bb-link {
+        @apply inline-flex items-center justify-center text-bb-black-500 focus:outline-none focus:ring-0 disabled:opacity-25 disabled:no-underline disabled:hover:text-bb-black-500 transition;
+    }
+
+    .bb-link-primary {
+        @apply bb-link hover:text-bb-primary;
+    }
+
+    .bb-link-secondary {
+        @apply bb-link hover:text-bb-secondary;
+    }
+
+    .bb-link-success {
+        @apply bb-link hover:text-bb-success;
+    }
+
+    .bb-link-warning {
+        @apply bb-link hover:text-bb-warning;
+    }
+
+    .bb-link-danger {
+        @apply bb-link hover:text-bb-danger;
+    }
+}
