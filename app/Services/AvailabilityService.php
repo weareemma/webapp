@@ -38,7 +38,8 @@ class AvailabilityService
         // Main flow
         $start = ($start) ? $start->startOfDay() : now()->startOfDay();
         $end = $start->copy()->addDays($days ?? (self::getWeeksWindow() * 7));
-        return self::flow($store, $start, $end, $booking_slots);
+
+        return self::flow($store, $start, $end, $booking_slots, $request->stylist);
     }
 
     /**
@@ -212,7 +213,7 @@ class AvailabilityService
      * main flow
      * 
      */
-    public static function flow(Store $store, Carbon $start, Carbon $end, $booking_slots = null, $log = false)
+    public static function flow(Store $store, Carbon $start, Carbon $end, $booking_slots = null, $stylist_id = null, $log = false)
     {
         $period = self::buildPeriod($start, $end);
 
@@ -305,6 +306,7 @@ class AvailabilityService
         $final = [];
         $log_data = [];
 
+
         foreach ($days as $day => $slots)
         {
             $parse_date = self::parseDate($day);
@@ -314,10 +316,18 @@ class AvailabilityService
             $actual = $shifts->where('date', $parse_date);
             $specific = $specific_schedule->where('date', $parse_date);
             $default = $default_schedule->where('weekday', strtolower($parse_date->format('D')));     
-            
-            $not_assigned_bookings = $bookings
-                ->where('date', $parse_date->copy()->startOfDay())
-                ->whereNull('stylist_id');
+
+            //check if has stylist choice
+            if(empty($stylist_id)){
+                $not_assigned_bookings = $bookings
+                    ->where('date', $parse_date->copy()->startOfDay())
+                    ->whereNull('stylist_id');
+            }else{
+                $not_assigned_bookings = $bookings
+                    ->where('date', $parse_date->copy()->startOfDay())
+                    ->where('stylist_id', '<>', $stylist_id);
+            }
+
 
             if ($actual->count() > 0)
             {

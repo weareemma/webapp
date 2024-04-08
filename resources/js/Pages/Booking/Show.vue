@@ -43,7 +43,7 @@
       <!-- info tab -->
       <div v-if="activeTab == 'info'">
         <!-- info -->
-        <div class="space-y-4 mb-8">
+        <div class="space-y-3 mb-8">
           <h2 class="text-xl font-medium text-bb-primary">Informazioni</h2>
 
           <!-- customer -->
@@ -157,30 +157,6 @@
             <div class="flex-1">
               {{ booking.duration }}
             </div>
-          </div>
-
-          <!-- Note customer -->
-          <template v-if="booking.is_father">
-            <div class="flex items-start">
-              <div class="uppercase text-bb-gray-700 w-36 text-xs">Note cliente</div>
-              <div class="flex-1">
-                <BbTextarea v-model="customerNotes" class="text-sm"/>
-              </div>
-              <bb-button primary class="py-1 px-2 ml-2 text-xs" @click="saveCustomerNotes">
-                Salva
-              </bb-button>
-            </div>
-          </template>
-
-          <!-- Note booking -->
-          <div class="flex items-start">
-            <div class="uppercase text-bb-gray-700 w-36 text-xs">Note appuntamento</div>
-            <div class="flex-1">
-              <BbTextarea v-model="bookingNotes" class="text-sm"/>
-            </div>
-            <bb-button primary class="py-1 px-2 ml-2 text-xs" @click="saveBookingNotes">
-              Salva
-            </bb-button>
           </div>
         </div>
 
@@ -486,8 +462,6 @@ import {useForm, usePage} from "@inertiajs/inertia-vue3";
 import BookingPaymentDialog from "@/Pages/Payments/Partials/BookingPaymentDialog.vue";
 import helpers from "../../helpers";
 import { CheckCircleIcon } from "@heroicons/vue/solid";
-import { PencilIcon } from "@heroicons/vue/solid";
-import axios from "axios";
 
 const props = defineProps({
   booking: Object,
@@ -506,6 +480,8 @@ const stylists = ref([]);
 onMounted(() => {
   stylist.value = props.booking.stylist_id;
   loadStylists();
+
+  console.log(props.booking);
 });
 
 function loadStylists()
@@ -627,30 +603,5 @@ function handleTableActions({ action, item }) {
 // go to
 function goTo(routeName) {
   Inertia.visit(route(routeName, props.booking.parent_id ?? props.booking.id));
-}
-
-const customerNotes = ref(props.booking.customer?.last_notes ?? '');
-const bookingNotes = ref(props.booking.stylist_notes ?? '');
-const saveCustomerNotes = () => {
-  axios.post(route('notes.customer', props.booking.customer.id), {
-    notes: customerNotes.value
-  })
-  .then(() => {
-    helpers.flash({
-        type: 'success',
-        message: 'Note salvate'
-      });
-  });
-}
-const saveBookingNotes = () => {
-  axios.post(route('notes.booking', props.booking.id), {
-    notes: bookingNotes.value
-  })
-  .then(() => {
-    helpers.flash({
-        type: 'success',
-        message: 'Note salvate'
-      });
-  });
 }
 </script>

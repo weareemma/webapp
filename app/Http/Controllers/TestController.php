@@ -98,7 +98,7 @@ class TestController extends Controller
     {
         $start = now()->startOfDay();
         $end = $start->copy()->addWeeks(AvailabilityService::getWeeksWindow());
-        $store_availability_all = AvailabilityService::flow($store,$start, $end, null, true);
+        $store_availability_all = AvailabilityService::flow($store,$start, $end, null, null, true);
 
         dd(
             '===> Store', $store->name,

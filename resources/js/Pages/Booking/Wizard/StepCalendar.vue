@@ -248,10 +248,9 @@ import {useWizardStore} from "../../../DataStore/Wizard/wizardStore";
 import {storeToRefs} from "pinia";
 import TimePicker from "vue3-timepicker";
 import { Inertia } from "@inertiajs/inertia";
-import axios from "axios";
 
 const store = useWizardStore()
-const { wizardSelection, isValid, activeStep, ready, people, wizardGeneral } = storeToRefs(store)
+const { wizardSelection, isValid, activeStep, ready } = storeToRefs(store)
 
 const updateData = inject("updateData");
 const prev = inject("prev");
@@ -280,16 +279,7 @@ const otherDateSlots = ref([{
 }]);
 
 watch(datepickerValue, (n) => {
-  console.log(dayjs(n).format('YYYY-MM-DD'));
-  axios.post(route('checkAvailability.single'), {
-    ...wizardGeneral.value,
-    ...wizardSelection.value,
-    people: people.value,
-    day: dayjs(n).format('YYYY-MM-DD')
-  }).then((res) => {
-    console.log(res.data);
-    otherDateSlots.value = res.data;
-  })
+  Inertia.get()
 })
 
 onMounted(() => {
@@ -297,7 +287,7 @@ onMounted(() => {
 
 // select day
 function selectDay(day) {
-  // console.log(day);
+  console.log(day);
   wizardSelection.value.selected_day = day;
   wizardSelection.value.selected_slot = null;
   if (slotsCollapsible.value) slotsCollapsible.value.open();
@@ -306,7 +296,7 @@ function selectDay(day) {
 
 // select slot
 function selectSlot(slot) {
-  // console.log(slot);
+  console.log(slot);
   wizardSelection.value.selected_slot = slot;
   updateData();
 }

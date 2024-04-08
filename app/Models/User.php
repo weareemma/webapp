@@ -319,6 +319,23 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
   {
     return self::allUsers()->role(self::ROLE_STYLIST)->orderBy('users.name', 'asc')->get();
   }
+  public static function stylistsForStore($storeId)
+  {
+    $stylists =  self::allUsers()->role(self::ROLE_STYLIST)->orderBy('users.name', 'asc')->get();
+    $validStylists = [];
+    foreach($stylists as $stylist){
+        if(is_array($stylist->stores) && in_array($storeId, $stylist->stores)){
+            $validStylists[] = [
+                "id" => $stylist->id,
+                "name" => $stylist->name,
+                "surname" => $stylist->surname,
+                "full_name" => $stylist->full_name,
+                "full_name_reverse" => $stylist->full_name_reverse,
+            ];
+        }
+    }
+    return $validStylists;
+  }
   public static function customers()
   {
     return self::allUsers()->role(self::ROLE_CUSTOMER)->get();
