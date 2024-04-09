@@ -584,6 +584,35 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     return $this->hasMany(Shift::class);
   }
 
+  public function hasShift(Carbon $daytime, Store $store){
+      return ($this->shifts()
+          ->where('store_id', $store->id)
+          ->where('start', '<=', $daytime)
+          ->where('end', '>=', $daytime)
+          ->count())?true:false;
+  }
+
+    public function isAvailable(Carbon $start, Carbon $end, Store $store){
+
+      $available = true;
+      $bookings = $this->bookings()->where('store_id', $store->id)->where('date', '=', $start->format('Y-m-d'))->get();
+
+      foreach($bookings as $booking){
+          $busyTime = $booking->date;
+          $busyTime->setTimeFromTimeString((string)$booking->start);
+          $busyTimeEnd = $busyTime->copy();
+          $busyTimeEnd->addMinutes($booking->total_execution_time);
+          if(
+              ($start->greaterThanOrEqualTo($busyTime) && ($start->lessThanOrEqualTo($busyTimeEnd))) ||
+              ($end->greaterThanOrEqualTo($busyTime) && ($end->lessThanOrEqualTo($busyTimeEnd)))
+          ){
+              $available = false;
+          }
+      }
+      return $available;
+    }
+
+
   /**
    * Delete user
    *

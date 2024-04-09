@@ -95,6 +95,31 @@ class Store extends Model
     return $this->hasMany(ClosingDay::class)->orderBy('from');
   }
 
+    function getTimingOfDay(Carbon $day){
+        $closingDays = $this->closingDays()->get();
+        foreach ($closingDays as $closingDay){
+            if(
+                ($day->greaterThanOrEqualTo($closingDay->from)) &&
+                ($day->lessThanOrEqualTo($closingDay->to))
+            ){
+                return false;
+            }
+        }
+
+        $exceptionalTime = $this->exceptionalTimes()->where('date', '=', $day)->first();
+        if(!empty($exceptionalTime)){
+            return $exceptionalTime->slots;
+        }
+
+        $openingTime = $this->openingTimes()->where('day', '=', strtolower($day->format('D')))->first();
+        if(!empty($openingTime)){
+            return $openingTime->slots;
+        }
+
+        return false;
+    }
+
+
   /**
    * Rela default schedules
    *
@@ -241,4 +266,6 @@ class Store extends Model
 
       return collect($actuals);
   }
+
+
 }

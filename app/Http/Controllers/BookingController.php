@@ -147,7 +147,6 @@ class BookingController extends Controller
   public function checkAvailability(Request $request)
   {
     $data = BookingService::checkAvailability($request);
-    return \response()->json($data);
     if ($request->has('axios'))
     {
         return \response()->json($data);

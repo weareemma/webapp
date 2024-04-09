@@ -42,6 +42,67 @@ class AvailabilityService
         return self::flow($store, $start, $end, $booking_slots, $request->stylist);
     }
 
+    public static function getStoreAvailabilityForBookingStylist(Store $store, Request $request)
+    {
+        if (is_null($store)) return [];
+        if (is_null($request->stylist)) return [];
+
+        $stylist = User::where('id', $request->stylist)->first();
+        if (is_null($stylist)) return [];
+
+
+        $start = now()->startOfDay();
+        $end = $start->copy()->addDays((self::getWeeksWindow() * 7));
+
+        $shiftDays = $store->shifts()
+            ->select('date')
+            ->whereBetween('date', [$start, $end])
+            ->where('user_id', '=', $request->stylist)
+            ->groupby('date')
+            ->get();
+
+        $days = [];
+
+        foreach ($shiftDays as $shiftDay){
+            $day = [
+                "date" => $shiftDay->date->format('Y-m-d'),
+                "available" => true,
+                "opening_time" => null,
+                "exceptional" => false,
+                "slots" => []
+            ];
+
+
+            $storeOpeningTime = $store->getTimingOfDay($shiftDay->date);
+            if(!empty($storeOpeningTime)){
+
+
+                foreach($storeOpeningTime as $openingTime){
+                    $startDay = $shiftDay->date->copy();
+                    $endDay = $shiftDay->date->copy();
+                    $startDay->setTimeFromTimeString($openingTime['start_time']);
+                    $endDay->setTimeFromTimeString($openingTime['end_time']);
+
+                    while ($startDay < $endDay){
+                        $day["slots"][] = [
+                            "time" => $startDay->format("H:i"),
+                            "available" => ($stylist->hasShift($startDay, $store) && ($stylist->isAvailable($startDay, $startDay->copy()->addMinutes(15), $store)))
+                        ];
+                        $startDay->addMinutes(15);
+                    }
+                }
+
+
+
+                $days[] = $day;
+            }
+
+        }
+
+        return $days;
+    }
+
+
     /**
      * Build carbon period
      * 

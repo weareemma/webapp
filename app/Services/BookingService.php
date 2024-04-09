@@ -71,29 +71,34 @@ class BookingService
         {
             return compact('days', 'infos');
         }
-        
-        $availability = AvailabilityService::getStoreAvailabilityForBooking($store, $request);
 
-        $days = collect([]);
-        foreach ($availability as $day => $slots)
-        {
-            $slots_data = [];
-            foreach ($slots as $key => $count)
+        if(empty($request->stylist)){
+            $availability = AvailabilityService::getStoreAvailabilityForBooking($store, $request);
+
+            $days = collect([]);
+            foreach ($availability as $day => $slots)
             {
-                $slots_data[] = [
-                    'time' => $key,
-                    'available' => $count > 0
-                ];
-            }
+                $slots_data = [];
+                foreach ($slots as $key => $count)
+                {
+                    $slots_data[] = [
+                        'time' => $key,
+                        'available' => $count > 0
+                    ];
+                }
 
-            $days->push([
-                'date' => $day,
-                'available' => array_sum($slots) > 0,
-                'opening_time' => null,
-                'exceptional' => false,
-                'slots' => $slots_data,
-            ]);
+                $days->push([
+                    'date' => $day,
+                    'available' => array_sum($slots) > 0,
+                    'opening_time' => null,
+                    'exceptional' => false,
+                    'slots' => $slots_data,
+                ]);
+            }
+        }else{
+            $days = AvailabilityService::getStoreAvailabilityForBookingStylist($store, $request);
         }
+
 
         return compact('days', 'infos');
     }
@@ -1266,6 +1271,13 @@ class BookingService
                 {
                     Log::error('Booking save: Notification error: ' . $ex->getMessage());
                 }                
+            }
+
+
+
+            if((!empty($requestData['stylist'])) && (!empty($booking))){
+                $booking->stylist_id = $requestData['stylist'];
+                $booking->save();
             }
 
             /**
