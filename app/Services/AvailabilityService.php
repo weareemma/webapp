@@ -335,15 +335,20 @@ class AvailabilityService
             {
                 foreach($exceptional_time->slots as $time_slot)
                 {
-                    $period = self::buildPeriod(
-                        $exceptional_time->date->copy()->setTimeFromTimeString($time_slot['start_time']),
-                        $exceptional_time->date->copy()->setTimeFromTimeString($time_slot['end_time']),
-                    );
+                    try{
+                        $period = self::buildPeriod(
+                            $exceptional_time->date->copy()->setTimeFromTimeString($time_slot['start_time']),
+                            $exceptional_time->date->copy()->setTimeFromTimeString($time_slot['end_time']),
+                        );
 
-                    if ($period->contains($slot))
-                    {
-                        $slot_check = true;
+                        if ($period->contains($slot))
+                        {
+                            $slot_check = true;
+                        }
+                    }catch(Exception $e){
+                        Log::error('$exceptional_time_check', $e->getMessage());
                     }
+
                 }
             }
             elseif($opening_time)
