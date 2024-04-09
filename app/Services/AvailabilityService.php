@@ -346,7 +346,7 @@ class AvailabilityService
                             $slot_check = true;
                         }
                     }catch(Exception $e){
-                        Log::error('$exceptional_time_check', $e->getMessage());
+                        //Log::error('$exceptional_time_check', $e->getMessage());
                     }
 
                 }
