@@ -365,7 +365,7 @@ const wizardSteps = computed(() => {
     },
     {
       name: "step_updo",
-      title: "Vuoi aggiungere un raccolto?",
+      title: "Vuoi aggiungere un taglio o raccolto?",
     },
     {
       name: "step_addons",
@@ -415,7 +415,7 @@ const menuItems = computed(() => {
     { title: "Dove", wizardStep: "step_store" },
     { title: "Numero persone", wizardStep: "step_people" },
     { title: "Servizi", wizardStep: "step_primary_hair_service" },
-    { title: "Raccolti", wizardStep: "step_updo" },
+    { title: "Taglio/Raccolti", wizardStep: "step_updo" },
     { title: "Add-on", wizardStep: "step_addons" },
     { title: "Stylist", wizardStep: "step_stylist" }
   ];

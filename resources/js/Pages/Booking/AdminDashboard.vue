@@ -361,7 +361,7 @@ const menuItems = computed(() => {
     { title: "Chi", wizardStep: "step_customer" },
     { title: "Numero persone", wizardStep: "step_people" },
     { title: "Servizi", wizardStep: "step_primary_hair_service" },
-    { title: "Raccolti", wizardStep: "step_updo" },
+    { title: "Taglio/Raccolti", wizardStep: "step_updo" },
     { title: "Add-on", wizardStep: "step_addons" }
   ];
 

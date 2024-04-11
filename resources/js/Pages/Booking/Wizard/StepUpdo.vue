@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-center mb-16">
-      Seleziona il raccolto che desideri prenotare
+      Seleziona il servizio che desideri prenotare
     </div>
 
     <div class="max-w-xl mx-auto">
@@ -11,14 +11,14 @@
            @click.stop="next"
            :disabled="! ready"
         >
-          Salta Raccolti >
+          Salta >
         </a>
         <a class="cursor-pointer underline"
            v-if="wizardSelection.different_services && ! (currentPeople === people[people.length - 1].name)"
            @click.stop="nextPeople"
            :disabled="! ready"
         >
-          Salta Raccolti >
+          Salta >
         </a>
       </div>
     </div>
