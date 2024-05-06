@@ -70,6 +70,25 @@ return [
             'days' => 20,
         ],
 
+        'bookingediting' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/booking-editing.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 20,
+        ],
+        'bookingavailability' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/booking-availability.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 20,
+        ],
+        'bookingstoring' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/booking-storing.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 20,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

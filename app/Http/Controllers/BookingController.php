@@ -29,6 +29,7 @@ use App\Http\Requests\Bookings\UpdateBookingRequest;
 use App\Notifications\NewAppointmentAlertForStylist;
 use App\Notifications\AppointmentConfirmationCustomer;
 
+
 class BookingController extends Controller
 {
   /**
@@ -146,13 +147,19 @@ class BookingController extends Controller
    */
   public function checkAvailability(Request $request)
   {
-    $data = BookingService::checkAvailability($request);
-    if ($request->has('axios'))
-    {
-        return \response()->json($data);
-    }
+        $data = BookingService::checkAvailability($request);
+        $datalog = [
+          "request" => $request->all(),
+          "response" => $data,
+        ];
 
-    return Redirect::back()->with('flash_data', $data);
+        if (($request->has('axios')) || ($request->hasHeader('X-Header-WeareemmaTest')))
+        {
+            Log::channel('bookingavailability')->info("FROM AXIOS: ". json_encode($datalog));
+            return \response()->json($data);
+        }
+        Log::channel('bookingavailability')->info("FROM FRONT: ". json_encode($datalog));
+        return Redirect::back()->with('flash_data', $data);
   }
 
   public function checkAvailabilitySingle(Request $request)
@@ -443,11 +450,20 @@ class BookingController extends Controller
       if ($request->has('stylist_id'))
       {
           $stylist = User::find($request->get('stylist_id'));
-          $booking->stylist_id = ($stylist) ? $stylist->id : null;
+          $stylist_id = ($stylist) ? $stylist->id : null;
+
+          $datalog = [
+              "stylist_from" => $booking->stylist_id,
+              "stylist_to" => $stylist_id,
+              "booking" => $booking->toArray(),
+          ];
+          Log::channel('bookingediting')->info("EDIT STYLIST: ". json_encode($datalog));
+          $booking->stylist_id = $stylist_id;
           $booking->updatedBy();
           $booking->save();
 
 //          if ($stylist) $stylist->notify(new NewAppointmentAlertForStylist($booking));
+
 
           return Redirect::back()
               ->with('success', __("Stylist aggiornato"));
@@ -476,10 +492,23 @@ class BookingController extends Controller
    */
   public function updateFromCalendar(Booking $booking, Request $request)
   {
-      // Set stylist
-      $booking->stylist_id = (is_null($request->get('stylist_id')))
+
+      $stylist_id = (is_null($request->get('stylist_id')))
           ? $booking->stylist_id
           : User::find($request->get('stylist_id'))?->id;
+
+      $datalog = [
+          "stylist_from" => $booking->stylist_id,
+          "stylist_to" => $stylist_id,
+          "slot_from" => $booking->start,
+          "slot_to" => $request->get('start', $booking->start),
+          "booking" => $booking->toArray(),
+      ];
+      Log::channel('bookingediting')->info("EDIT FROM CALENDAR: ". json_encode($datalog));
+
+
+      // Set stylist
+      $booking->stylist_id = $stylist_id;
 
       // Set start
       $booking->start = $request->get('start', $booking->start);
@@ -487,6 +516,7 @@ class BookingController extends Controller
       // Save
       $booking->updatedBy();
       $booking->save();
+
 
       return Redirect::back()
           ->with('success', __("Appuntamento aggiornato"));
@@ -496,6 +526,13 @@ class BookingController extends Controller
   {
       if ($request->get('date'))
       {
+
+          $datalog = [
+              "date" => $request->get('date'),
+              "booking" => $booking->toArray(),
+          ];
+          Log::channel('bookingediting')->info("EDIT DATE: ". json_encode($datalog));
+
           $booking->date = $request->get('date');
           $booking->save();
       }
