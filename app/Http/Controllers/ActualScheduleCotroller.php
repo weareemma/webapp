@@ -109,6 +109,9 @@ class ActualScheduleCotroller extends Controller
 
                 $color = ($has_children) ? ($colors[$color_ixd++] ?? 'white') : '#45bc26';
 
+                if(!empty($booking->stylist_id) && (!empty($booking->stylist_customer_selection))){
+                    $color = '#fdd957';
+                }
                 $events->push([
                     'id' => 'B_' . $booking->id,
                     'resourceId' => ($booking->stylist) ? $booking->stylist->id : -1,

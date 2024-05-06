@@ -1279,6 +1279,7 @@ class BookingService
 
             if((!empty($requestData['stylist'])) && (!empty($booking))){
                 $booking->stylist_id = $requestData['stylist'];
+                $booking->stylist_customer_selection = 1;
                 $booking->save();
             }
 
