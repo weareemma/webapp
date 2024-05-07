@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FiscalFile\StoreFiscalFileRequest;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
+use App\Models\HairService;
 use App\Models\Store;
 use App\Models\User;
 use App\Services\HelpersService;
@@ -89,10 +90,45 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return Inertia::render('Users/Form', [
+
+        $massage = [];
+        $treatment = [];
+        $updo = [];
+
+        foreach(HairService::where("type", "massage")->where("level", "addon")->where("active", 1)->get() as $service){
+            $massage[] = [
+                "id" => $service->id,
+                "title" => $service->title,
+                "selected" => ($user->hairServices()->where('id', $service->id)->count())?true:false,
+            ];
+        }
+        foreach(HairService::where("type", "treatment")->where("level", "addon")->where("active", 1)->get() as $service){
+            $treatment[] = [
+                "id" => $service->id,
+                "title" => $service->title,
+                "selected" => ($user->hairServices()->where('id', $service->id)->count())?true:false,
+            ];
+        }
+        foreach(HairService::where("type", "updo")->where("level", "addon")->where("active", 1)->get() as $service){
+            $updo[] = [
+                "id" => $service->id,
+                "title" => $service->title,
+                "selected" => ($user->hairServices()->where('id', $service->id)->count())?true:false,
+            ];
+        }
+
+
+
+        $dataReturn = [
             'user' => $user,
-            'stores' => $this->loadStores()
-        ]);
+            'stores' => $this->loadStores(),
+            'addOns' => [
+                "massage" => $massage,
+                "treatment" => $treatment,
+                "updo" => $updo,
+            ]
+        ];
+        return Inertia::render('Users/Form', $dataReturn);
     }
 
     /**

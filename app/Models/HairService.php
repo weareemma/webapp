@@ -96,6 +96,11 @@ class HairService extends Model implements HasMedia
     'net_price_discounted'
   ];
 
+  public function users()
+  {
+      return $this->belongsToMany(User::class);
+  }
+
   public function getNetPriceDiscountedAttribute() 
   {
     return round($this->net_price * (1 - self::SUB_DISCOUNT), 2);

@@ -126,11 +126,17 @@ function storeModel()
           <bb-input type="text" placeholder="Tanda" v-model="form.tanda_code" readonly></bb-input>
           <bb-input-validation :form="form" name="tanda_code"></bb-input-validation>
         </div>
-        <div v-if="form.role === helpers.role_stylist">
+      </div>
+
+      <div class="grid grid-cols-1 mt-5">
+        <h3 class="text-bb-blue-500 mb-4 big-header-title">
+          <span>Servizi associati (Taglio)</span>
+        </h3>
+<!--        <div v-if="form.role === helpers.role_stylist">
           <bb-label class="mb-1">Afro</bb-label>
           <bb-checkbox v-model="form.afro"></bb-checkbox>
           <bb-input-validation :form="form" name="afro"></bb-input-validation>
-        </div>
+        </div>-->
       </div>
 
       <div class="sm:col-span-2 mt-5">

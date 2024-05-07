@@ -145,6 +145,11 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     'last_notes_by_name'
   ];
 
+  public function hairServices()
+  {
+      return $this->belongsToMany(HairService::class);
+  }
+
   /**
    * Get the URL to the user's profile photo.
    *
@@ -555,7 +560,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         unset($data['password']);
       }
 
-      $user->update(Arr::except($data, ['photo', 'role']));
+      $user->update(Arr::except($data, ['photo', 'role', 'hair_service']));
+      if (isset($data['hair_service'])) {
+          $user->hairServices()->sync($data['hair_service']);
+      }
       if (isset($data['photo'])) {
           $user->updateProfilePhoto($data['photo']);
       }
