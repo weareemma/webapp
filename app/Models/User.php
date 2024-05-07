@@ -588,7 +588,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
       return ($this->shifts()
           ->where('store_id', $store->id)
           ->where('start', '<=', $daytime)
-          ->where('end', '>=', $daytime)
+          ->where('end', '>', $daytime)
           ->count())?true:false;
   }
 

@@ -47,7 +47,6 @@ class AvailabilityService
     {
         if (is_null($store)) return [];
         if (is_null($request->stylist)) return [];
-
         $stylist = User::where('id', $request->stylist)->first();
         if (is_null($stylist)) return [];
 
@@ -63,6 +62,8 @@ class AvailabilityService
             ->get();
 
         $days = [];
+
+        $serviceSlotsCount = self::getServiceSlotFromRequest($request);
 
         foreach ($shiftDays as $shiftDay){
             $day = [
@@ -93,13 +94,14 @@ class AvailabilityService
                     }
                 }
 
-
+                for($i = 0; $i < count($day["slots"]); $i++){
+                    $day["slots"][$i]["available"] = self::isSlotUseful($day, $i, $serviceSlotsCount);
+                }
 
                 $days[] = $day;
             }
 
         }
-
         return $days;
     }
 
@@ -987,5 +989,69 @@ class AvailabilityService
         }
 
         return $can_handle;
+    }
+
+
+    private static function getServiceSlotFromRequest($request)
+    {
+        try
+        {
+            $slotsCount = 0;
+            $data = $request->all();
+            $timing = 0;
+            if(isset($data["people"][0])){
+                if(isset($data["people"][0]["primary_service"])){
+                    $timing += $data["people"][0]["primary_service"]["execution_time"];
+                }
+
+                if((isset($data["people"][0]["addons"]["updo"])) && (count($data["people"][0]["addons"]["updo"]))){
+                    foreach($data["people"][0]["addons"]["updo"] as $updo){
+                        $timing += $updo["execution_time"];
+                    }
+                }
+
+                if((isset($data["people"][0]["addons"]["massage"])) && (count($data["people"][0]["addons"]["massage"]))){
+                    foreach($data["people"][0]["addons"]["massage"] as $massage){
+                        $timing += $massage["execution_time"];
+                    }
+                }
+
+                if((isset($data["people"][0]["addons"]["treatment"])) && (count($data["people"][0]["addons"]["treatment"]))){
+                    foreach($data["people"][0]["addons"]["treatment"] as $treatment){
+                        $timing += $treatment["execution_time"];
+                    }
+                }
+            }
+
+            $slotsCount = (int)ceil($timing/15);
+            return $slotsCount;
+        }
+        catch(Exception $ex)
+        {
+            return null;
+        }
+    }
+
+    private static function isSlotUseful($day, $slotPosition, $slotsCount)
+    {
+        try
+        {
+            $useful = true;
+            $maxPosition = $slotPosition+$slotsCount;
+            if(count($day["slots"]) < $slotsCount){
+                $useful = false;
+            }else{
+                for($i=$slotPosition; $i<$maxPosition; $i++){
+                    if($day["slots"][$i]["available"] === false){
+                        $useful = false;
+                    }
+                }
+            }
+            return $useful;
+        }
+        catch(Exception $ex)
+        {
+            return false;
+        }
     }
 }
