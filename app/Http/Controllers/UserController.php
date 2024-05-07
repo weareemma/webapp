@@ -99,21 +99,21 @@ class UserController extends Controller
             $massage[] = [
                 "id" => $service->id,
                 "title" => $service->title,
-                "selected" => ($user->hairServices()->where('id', $service->id)->count())?true:false,
+                "selected" => ($user->hairServices()->where('hair_services.id', $service->id)->count())?true:false,
             ];
         }
         foreach(HairService::where("type", "treatment")->where("level", "addon")->where("active", 1)->get() as $service){
             $treatment[] = [
                 "id" => $service->id,
                 "title" => $service->title,
-                "selected" => ($user->hairServices()->where('id', $service->id)->count())?true:false,
+                "selected" => ($user->hairServices()->where('hair_services.id', $service->id)->count())?true:false,
             ];
         }
         foreach(HairService::where("type", "updo")->where("level", "addon")->where("active", 1)->get() as $service){
             $updo[] = [
                 "id" => $service->id,
                 "title" => $service->title,
-                "selected" => ($user->hairServices()->where('id', $service->id)->count())?true:false,
+                "selected" => ($user->hairServices()->where('hair_services.id', $service->id)->count())?true:false,
             ];
         }
 
