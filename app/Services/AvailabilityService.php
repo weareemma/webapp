@@ -59,6 +59,7 @@ class AvailabilityService
             ->whereBetween('date', [$start, $end])
             ->where('user_id', '=', $request->stylist)
             ->groupby('date')
+            ->orderby('date', 'asc')
             ->get();
 
         $days = [];
