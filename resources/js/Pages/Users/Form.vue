@@ -138,7 +138,7 @@ function storeModel()
         </h3>
         <div class="grid grid-cols-4" v-for="obj in addOns.massage">
           <bb-label class="mb-1">
-            <input type="checkbox" name="hair_service" :id="'service' + obj.id" :value="obj.id" v-model="hairService" >
+            <input type="checkbox" name="hair_service" :id="'service' + obj.id" :value="obj.id" :modelValue="hairService" >
             {{ obj.title }}
           </bb-label>
         </div>
