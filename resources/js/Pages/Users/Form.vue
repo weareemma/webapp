@@ -16,7 +16,8 @@ const password = {
   password: null,
   password_confirmation: null
 }
-const form = useForm({...props.user, ...password, ...{'hair_service': props.hairService}});
+// const form = useForm({...props.user, ...password, ...{'hair_service': props.hairService}});
+const form = useForm({...props.user, ...password, hair_service: props.hairService});
 
 function isCreation()
 {
@@ -35,8 +36,6 @@ function isStoresRequired()
 
 function storeModel()
 {
-
-  form.hair_service = props.hairService
   if (form.id)
   {
     form.put(route("user.update", form.id), {
@@ -136,9 +135,10 @@ function storeModel()
         <h3 class="text-bb-blue-500 mb-4 big-header-title">
           <span>Servizi associati (Massaggio)</span>
         </h3>
+
         <div class="grid grid-cols-4" v-for="obj in addOns.massage">
           <bb-label class="mb-1">
-            <input type="checkbox" name="hair_service" :id="'service' + obj.id" :value="obj.id" :modelValue="hairService" >
+            <input type="checkbox" :id="'service-'+obj.id" :value="obj.id" v-model="form.hair_service">
             {{ obj.title }}
           </bb-label>
         </div>
@@ -150,7 +150,7 @@ function storeModel()
         </h3>
         <div class="grid grid-cols-4" v-for="obj in addOns.updo">
           <bb-label class="mb-1">
-            <input type="checkbox" name="hair_service" :id="'service' + obj.id" :value="obj.id" v-model="hairService" >
+            <input type="checkbox" :id="'service-'+obj.id" :value="obj.id" v-model="form.hair_service">
             {{ obj.title }}
           </bb-label>
         </div>
@@ -163,7 +163,7 @@ function storeModel()
         </h3>
         <div class="grid grid-cols-4" v-for="obj in addOns.treatment">
           <bb-label class="mb-1">
-            <input type="checkbox" name="hair_service" :id="'service' + obj.id" :value="obj.id" v-model="hairService" >
+            <input type="checkbox" :id="'service-'+obj.id" :value="obj.id" v-model="form.hair_service">
             {{ obj.title }}
           </bb-label>
         </div>
