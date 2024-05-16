@@ -94,6 +94,7 @@ class UserController extends Controller
         $massage = [];
         $treatment = [];
         $updo = [];
+        $hair_service = [];
 
         foreach(HairService::where("type", "massage")->where("level", "addon")->where("active", 1)->get() as $service){
             $massage[] = [
@@ -101,6 +102,9 @@ class UserController extends Controller
                 "title" => $service->title,
                 "selected" => ($user->hairServices()->where('hair_services.id', $service->id)->count())?true:false,
             ];
+            if($user->hairServices()->where('hair_services.id', $service->id)->count()){
+                $hair_service[] = $service->id;
+            }
         }
         foreach(HairService::where("type", "treatment")->where("level", "addon")->where("active", 1)->get() as $service){
             $treatment[] = [
@@ -108,6 +112,9 @@ class UserController extends Controller
                 "title" => $service->title,
                 "selected" => ($user->hairServices()->where('hair_services.id', $service->id)->count())?true:false,
             ];
+            if($user->hairServices()->where('hair_services.id', $service->id)->count()){
+                $hair_service[] = $service->id;
+            }
         }
         foreach(HairService::where("type", "updo")->where("level", "addon")->where("active", 1)->get() as $service){
             $updo[] = [
@@ -115,9 +122,10 @@ class UserController extends Controller
                 "title" => $service->title,
                 "selected" => ($user->hairServices()->where('hair_services.id', $service->id)->count())?true:false,
             ];
+            if($user->hairServices()->where('hair_services.id', $service->id)->count()){
+                $hair_service[] = $service->id;
+            }
         }
-
-
 
         $dataReturn = [
             'user' => $user,
@@ -126,7 +134,8 @@ class UserController extends Controller
                 "massage" => $massage,
                 "treatment" => $treatment,
                 "updo" => $updo,
-            ]
+            ],
+            'hairService' => $hair_service
         ];
         return Inertia::render('Users/Form', $dataReturn);
     }
@@ -220,7 +229,7 @@ class UserController extends Controller
 
     /**
      * Save customer notes
-     * 
+     *
      */
     public function saveCustomerNotes(User $user, Request $request)
     {

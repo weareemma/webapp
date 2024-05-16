@@ -7,14 +7,16 @@ import helpers from "../../helpers";
 
 const props = defineProps({
   user: Object,
-  stores: Object
+  stores: Object,
+  addOns: Object,
+  hairService: Object,
 });
 
 const password = {
   password: null,
   password_confirmation: null
 }
-const form = useForm({...props.user, ...password});
+const form = useForm({...props.user, ...password, ...{'hair_service': props.hairService}});
 
 function isCreation()
 {
@@ -33,6 +35,8 @@ function isStoresRequired()
 
 function storeModel()
 {
+
+  form.hair_service = props.hairService
   if (form.id)
   {
     form.put(route("user.update", form.id), {
@@ -130,13 +134,39 @@ function storeModel()
 
       <div class="grid grid-cols-1 mt-5">
         <h3 class="text-bb-blue-500 mb-4 big-header-title">
-          <span>Servizi associati (Taglio)</span>
+          <span>Servizi associati (Massaggio)</span>
         </h3>
-<!--        <div v-if="form.role === helpers.role_stylist">
-          <bb-label class="mb-1">Afro</bb-label>
-          <bb-checkbox v-model="form.afro"></bb-checkbox>
-          <bb-input-validation :form="form" name="afro"></bb-input-validation>
-        </div>-->
+        <div class="grid grid-cols-4" v-for="obj in addOns.massage">
+          <bb-label class="mb-1">
+            <input type="checkbox" name="hair_service" :id="'service' + obj.id" :value="obj.id" v-model="hairService" >
+            {{ obj.title }}
+          </bb-label>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 mt-5">
+        <h3 class="text-bb-blue-500 mb-4 big-header-title">
+          <span>Servizi associati (Raccolto)</span>
+        </h3>
+        <div class="grid grid-cols-4" v-for="obj in addOns.updo">
+          <bb-label class="mb-1">
+            <input type="checkbox" name="hair_service" :id="'service' + obj.id" :value="obj.id" v-model="hairService" >
+            {{ obj.title }}
+          </bb-label>
+        </div>
+
+      </div>
+
+      <div class="grid grid-cols-1 mt-5">
+        <h3 class="text-bb-blue-500 mb-4 big-header-title">
+          <span>Servizi associati (Trattamento)</span>
+        </h3>
+        <div class="grid grid-cols-4" v-for="obj in addOns.treatment">
+          <bb-label class="mb-1">
+            <input type="checkbox" name="hair_service" :id="'service' + obj.id" :value="obj.id" v-model="hairService" >
+            {{ obj.title }}
+          </bb-label>
+        </div>
       </div>
 
       <div class="sm:col-span-2 mt-5">

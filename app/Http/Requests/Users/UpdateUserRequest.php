@@ -33,7 +33,8 @@ class UpdateUserRequest extends FormRequest
             'password' => 'nullable|confirmed|min:8',
             'stores' => 'array|nullable',
             'role' => 'required',
-            'active' => 'required'
+            'active' => 'required',
+            'hair_service' => 'array|nullable',
         ];
     }
 }
