@@ -10,6 +10,8 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://app.weareemma.com/favicon.png">
 
+    <!-- Scripts -->
+    <link rel="preload" as="style" href="https://app.weareemma.com/build/assets/app.08980375.css"><link rel="modulepreload" href="https://app.weareemma.com/build/assets/app.33640ce6.js"><link rel="stylesheet" href="https://app.weareemma.com/build/assets/app.08980375.css"><script type="module" src="https://app.weareemma.com/build/assets/app.33640ce6.js"></script>
 
 
     </head>
