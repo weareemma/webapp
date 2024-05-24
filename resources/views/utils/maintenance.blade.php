@@ -135,8 +135,9 @@
                 <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0" data-v-285c44da="">
                     <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                         <div class="px-4 py-5" data-v-285c44da="">
-                            <h3 class="text-center mt-4 mb-5" data-v-285c44da="">Stiamo aggiornando il sistema di prenotazione</h3>
-                            <h6 class="text-center mb-8" data-v-285c44da="">A breve sarà possibile prenotare i l tuo appuntamento!</h6>
+<!--                            <h3 class="text-center mt-4 mb-5" data-v-285c44da="">Stiamo aggiornando il sistema di prenotazione</h3>-->
+                            <h6 class="text-center mb-8" data-v-285c44da="">Stiamo lavorando per introdurre sull'app il servizio colore
+                                <br /> 5 minuti di attesa per te, infinite sfumature in arrivo per i tuoi capelli!</h6>
                         </div>
                     </div>
                 </div>
