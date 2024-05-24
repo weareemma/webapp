@@ -28,10 +28,16 @@ class HairService extends Model implements HasMedia
     'addon' => 'Add on'
   ];
 
+  /*
+   * new temp mapping
+   * updo: Raccolti e extra
+   * massage: Taglio
+   * treatment: Colore
+   * */
   public const SERVICE_TYPES = [
-    'massage' => 'Massaggio',
-    'treatment' => 'Trattamento',
-    'updo' => 'Raccolto'
+    'massage' => 'Taglio',
+    'treatment' => 'Colore',
+    'updo' => 'Raccolti & Extra'
   ];
 
   /**
@@ -101,7 +107,7 @@ class HairService extends Model implements HasMedia
       return $this->belongsToMany(User::class);
   }
 
-  public function getNetPriceDiscountedAttribute() 
+  public function getNetPriceDiscountedAttribute()
   {
     return round($this->net_price * (1 - self::SUB_DISCOUNT), 2);
   }

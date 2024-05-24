@@ -330,12 +330,18 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     $validStylists = [];
     foreach($stylists as $stylist){
         if(is_array($stylist->stores) && in_array($storeId, $stylist->stores)){
+            $servicesArray = [];
+            $services = $stylist->hairServices;
+            foreach($services as $s){
+                $servicesArray[] = $s->id;
+            }
             $validStylists[] = [
                 "id" => $stylist->id,
                 "name" => $stylist->name,
                 "surname" => $stylist->surname,
                 "full_name" => $stylist->full_name,
                 "full_name_reverse" => $stylist->full_name_reverse,
+                "services" => $servicesArray,
             ];
         }
     }
@@ -464,7 +470,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
                 $q->whereDate('ends_at', '>=', $from);
             }
           }
-          
+
           if ($request->subTo)
           {
             $to = HelpersService::parseDateString($request->get('subTo'));
@@ -472,7 +478,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             {
                 $q->whereDate('ends_at', '<=', $to);
             }
-          }        
+          }
         });
       }
 
@@ -1264,7 +1270,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
                     $q->whereDate('ends_at', '>=', $from);
                 }
               }
-              
+
               if (isset($request['subTo']))
               {
                 $to = HelpersService::parseDateString($request['subTo']);
@@ -1275,7 +1281,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
               }
             });
           }
-      
+
           if (isset($request['subStatus']) && $request['subStatus'] == 'unsubscribed')
           {
             $query->where(function($q) {

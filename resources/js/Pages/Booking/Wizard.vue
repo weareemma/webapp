@@ -365,11 +365,11 @@ const wizardSteps = computed(() => {
     },
     {
       name: "step_updo",
-      title: "Vuoi aggiungere un taglio o raccolto?",
+      title: "Raccolti e Trattamenti",
     },
     {
       name: "step_addons",
-      title: "Quali add-on?",
+      title: "Taglio/Colore",
     },
     {
       name: "step_stylist",
@@ -415,8 +415,8 @@ const menuItems = computed(() => {
     { title: "Dove", wizardStep: "step_store" },
     { title: "Numero persone", wizardStep: "step_people" },
     { title: "Servizi", wizardStep: "step_primary_hair_service" },
-    { title: "Taglio/Raccolti", wizardStep: "step_updo" },
-    { title: "Add-on", wizardStep: "step_addons" },
+    { title: "Raccolti/Trattamenti", wizardStep: "step_updo" },
+    { title: "Taglio/Colore", wizardStep: "step_addons" },
     { title: "Stylist", wizardStep: "step_stylist" }
   ];
 
@@ -574,7 +574,7 @@ function getSidebarData(wizardStep)
     case "step_stylist":
       return [
         {
-          title: 'pippo',
+          title: '',
           data: [{
             title: getMenuItemData(wizardStep)
           }]

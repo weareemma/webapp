@@ -133,9 +133,119 @@ class BookingController extends Controller
       return \response()->json(['data' => $services]);
   }
 
-    public function stylistAvailable(Store $store)
+    public function stylistAvailable(Request $request)
     {
-        $stylists = User::stylistsForStore($store->id);
+        $data = $request->all();
+
+        $stylists = User::stylistsForStore($data['storeId']);
+
+        $serviceSelection = [
+            "massage" => [],
+            "treatment" => [],
+            "updo" => [],
+        ];
+        $servicesFlat = [];
+        foreach($data["people"] as $people){
+            $massage = [];
+            if(isset($people['addons']['massage'])){
+                foreach($people['addons']['massage'] as $obj){
+                    $massage[] = $obj['id'];
+                    $servicesFlat[] = $obj['id'];
+                }
+            }
+            $serviceSelection["massage"] = array_merge($massage, $serviceSelection["massage"]);
+
+            $updo = [];
+            if(isset($people['addons']['updo'])){
+                foreach($people['addons']['updo'] as $obj){
+                    $updo[] = $obj['id'];
+                    $servicesFlat[] = $obj['id'];
+                }
+            }
+            $serviceSelection["updo"] = array_merge($updo, $serviceSelection["updo"]);
+
+            $treatment = [];
+            if(isset($people['addons']['treatment'])){
+                foreach($people['addons']['treatment'] as $obj){
+                    $treatment[] = $obj['id'];
+                    $servicesFlat[] = $obj['id'];
+                }
+            }
+            $serviceSelection["treatment"] = array_merge($treatment, $serviceSelection["treatment"]);
+        }
+
+        //check for special services
+        $specialServices = [62,63,66,60];
+        $needSpecial = false;
+        foreach($servicesFlat as $flat){
+            if(in_array($flat, $servicesFlat)){
+                $needSpecial = true;
+            }
+        }
+        if($needSpecial){
+            $returnStylist = [];
+            foreach ($stylists as $stylist){
+                if((in_array(60, $stylist['services'])) || (in_array(62, $stylist['services'])) || (in_array(63, $stylist['services'])) || (in_array(66, $stylist['services']))){
+                    $returnStylist[] = $stylist;
+                }
+            }
+            return \response()->json(['data' => $returnStylist]);
+        }
+
+        //check for color (treatment ON DB)
+        if(count($serviceSelection["treatment"])){
+            $returnStylist = [];
+            foreach ($stylists as $stylist){
+                $validStylist = true;
+                foreach ($serviceSelection["treatment"] as $treatment){
+                    if(!in_array($treatment, $stylist['services'])){
+                        $validStylist = false;
+                    }
+                }
+                if($validStylist){
+                    $returnStylist[] = $stylist;
+                }
+
+            }
+            return \response()->json(['data' => $returnStylist]);
+        }
+
+        //check for cut (massage ON DB)
+        if(count($serviceSelection["massage"])){
+            $returnStylist = [];
+            foreach ($stylists as $stylist){
+                $validStylist = true;
+                foreach ($serviceSelection["massage"] as $treatment){
+                    if(!in_array($treatment, $stylist['services'])){
+                        $validStylist = false;
+                    }
+                }
+                if($validStylist){
+                    $returnStylist[] = $stylist;
+                }
+
+            }
+            return \response()->json(['data' => $returnStylist]);
+        }
+
+        //check for extra & raccolti (updo ON DB)
+        if(count($serviceSelection["updo"])){
+            $returnStylist = [];
+            foreach ($stylists as $stylist){
+                $validStylist = true;
+                foreach ($serviceSelection["updo"] as $treatment){
+                    if(!in_array($treatment, $stylist['services'])){
+                        $validStylist = false;
+                    }
+                }
+                if($validStylist){
+                    $returnStylist[] = $stylist;
+                }
+
+            }
+            return \response()->json(['data' => $returnStylist]);
+        }
+
         return \response()->json(['data' => $stylists]);
 
     }
@@ -165,7 +275,7 @@ class BookingController extends Controller
   public function checkAvailabilitySingle(Request $request)
   {
     $data = BookingService::checkAvailabilitySingle($request);
-    return Redirect::back()->with('flash_data', $data); 
+    return Redirect::back()->with('flash_data', $data);
   }
 
   /**
@@ -419,7 +529,7 @@ class BookingController extends Controller
       ]);
     }
 
-    
+
 
     return Redirect::back();
   }
@@ -542,7 +652,7 @@ class BookingController extends Controller
 
   /**
    * Set not shown status
-   * 
+   *
    */
   public function setNotShownStatus(Booking $booking)
   {

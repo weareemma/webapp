@@ -78,7 +78,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Admin
     Route::middleware(['role:manager|admin'])->group(function () {
-      Route::get('/admin-dashboard', [\App\Http\Controllers\BookingController::class, 'adminDashboard'])->name('admin-dashboard');
+      //Route::get('/admin-dashboard', [\App\Http\Controllers\BookingController::class, 'adminDashboard'])->name('admin-dashboard');
+      Route::get('/admin-dashboard', function(){
+          return view('utils.maintenance');
+      })->name('admin-dashboard');
       Route::get('/stylists/{booking}', [\App\Http\Controllers\BookingController::class, 'availableStylists'])->name('stylists');
       Route::post('/{booking}/update', [\App\Http\Controllers\BookingController::class, 'updateStylist'])->name('update.stylist');
       Route::post('/{booking}/calendar', [\App\Http\Controllers\BookingController::class, 'updateFromCalendar'])->name('update.calendar');
@@ -100,14 +103,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Customer non logged
     Route::withoutMiddleware(['auth:sanctum'])->group(function () {
       // Wizard main view
-      Route::get('/wizard', [\App\Http\Controllers\BookingController::class, 'wizard'])->name('wizard')->middleware('bookingLocked');
+      Route::get('/wizard', function(){
+          return view('utils.maintenance');
+      })->name('wizard')->middleware('bookingLocked');
+      //Route::get('/wizard', [\App\Http\Controllers\BookingController::class, 'wizard'])->name('wizard')->middleware('bookingLocked');
       // get payment infos
       Route::get('/payment-infos', [\App\Http\Controllers\BookingController::class, 'getPaymentInfos'])->name('payment-infos');
       // services
       Route::prefix('hair-services')->name('hair-services.')->group(function () {
         Route::post('/primary', [\App\Http\Controllers\BookingController::class, 'primaryHairServices'])->name('primary');
         Route::post('/addon/{primaryService}', [\App\Http\Controllers\BookingController::class, 'addonHairServices'])->name('addon');
-        Route::post('/get-stylists/{store}', [\App\Http\Controllers\BookingController::class, 'stylistAvailable'])->name('stylists');
+        Route::post('/get-stylists', [\App\Http\Controllers\BookingController::class, 'stylistAvailable'])->name('stylists');
         Route::post('/check', [\App\Http\Controllers\BookingController::class, 'checkAvailability'])->name('check-availability');
       });
       // get infos

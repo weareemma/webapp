@@ -241,8 +241,8 @@ function compareAddon(name, service, category)
 function jumpAddons()
 {
   people.value.forEach((p) => {
-    p.addons.massage = [];
     p.addons.treatment = [];
+    p.addons.massage = [];
   })
   next();
 }
@@ -251,9 +251,9 @@ function jumpAddons()
 function getAddonName(key) {
   switch (key) {
     case "massage":
-      return "Massaggio";
+      return "Taglio";
     case "treatment":
-      return "Trattamento";
+      return "Colore";
   }
 }
 
@@ -261,9 +261,9 @@ function getCategoryTitle(key)
 {
   switch (key) {
     case 'massage':
-      return "Servizi Extra";
+      return "Taglio";
     case 'treatment':
-      return "Trattamenti";
+      return "Colore";
   }
 }
 </script>

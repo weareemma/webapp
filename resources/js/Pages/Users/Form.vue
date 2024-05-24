@@ -133,7 +133,7 @@ function storeModel()
 
       <div class="grid grid-cols-1 mt-5">
         <h3 class="text-bb-blue-500 mb-4 big-header-title">
-          <span>Servizi associati (Massaggio)</span>
+          <span>Servizi associati (Taglio)</span>
         </h3>
 
         <div class="grid grid-cols-4" v-for="obj in addOns.massage">
@@ -143,10 +143,20 @@ function storeModel()
           </bb-label>
         </div>
       </div>
-
       <div class="grid grid-cols-1 mt-5">
         <h3 class="text-bb-blue-500 mb-4 big-header-title">
-          <span>Servizi associati (Raccolto)</span>
+          <span>Servizi associati (Colore)</span>
+        </h3>
+        <div class="grid grid-cols-4" v-for="obj in addOns.treatment">
+          <bb-label class="mb-1">
+            <input type="checkbox" :id="'service-'+obj.id" :value="obj.id" v-model="form.hair_service">
+            {{ obj.title }}
+          </bb-label>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 mt-5">
+        <h3 class="text-bb-blue-500 mb-4 big-header-title">
+          <span>Servizi associati (Raccolto & Extra)</span>
         </h3>
         <div class="grid grid-cols-4" v-for="obj in addOns.updo">
           <bb-label class="mb-1">
@@ -157,17 +167,7 @@ function storeModel()
 
       </div>
 
-      <div class="grid grid-cols-1 mt-5">
-        <h3 class="text-bb-blue-500 mb-4 big-header-title">
-          <span>Servizi associati (Trattamento)</span>
-        </h3>
-        <div class="grid grid-cols-4" v-for="obj in addOns.treatment">
-          <bb-label class="mb-1">
-            <input type="checkbox" :id="'service-'+obj.id" :value="obj.id" v-model="form.hair_service">
-            {{ obj.title }}
-          </bb-label>
-        </div>
-      </div>
+
 
       <div class="sm:col-span-2 mt-5">
         <div class="flex justify-start items-center">

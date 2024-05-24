@@ -361,8 +361,8 @@ const menuItems = computed(() => {
     { title: "Chi", wizardStep: "step_customer" },
     { title: "Numero persone", wizardStep: "step_people" },
     { title: "Servizi", wizardStep: "step_primary_hair_service" },
-    { title: "Taglio/Raccolti", wizardStep: "step_updo" },
-    { title: "Add-on", wizardStep: "step_addons" }
+    { title: "Raccolti ed extra", wizardStep: "step_updo" },
+    { title: "Taglio/Colore", wizardStep: "step_addons" }
   ];
 
   // if (selectedPrimaryService.value && !selectedPrimaryService.value?.dry_style)

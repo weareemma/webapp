@@ -218,7 +218,7 @@ export const useWizardStore = defineStore('wizard', () => {
                 });
                 break;
             case 'step_addons':
-                await axios.post(route("booking.hair-services.stylists", data.storeId)).then((response) => {
+                await axios.post(route("booking.hair-services.stylists"), data).then((response) => {
                     wizardGeneral.value.stylists = response.data.data
                 }).catch((err) => {
                     console.error(err)
@@ -227,7 +227,6 @@ export const useWizardStore = defineStore('wizard', () => {
             default:
                 break;
         }
-
         ready.value = true;
     }
 

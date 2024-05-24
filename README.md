@@ -9,3 +9,11 @@
 <!-- ## How to run in dev mode
 
 * `npm run dev` -->
+
+
+# Logic concept
+### Temp Mapping of Service's categories DB and FrontEnd
+
+* updo: Raccolti ed extra
+* massage: Taglio
+* treatment: Colore
