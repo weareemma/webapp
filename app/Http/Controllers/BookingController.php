@@ -178,7 +178,7 @@ class BookingController extends Controller
         $specialServices = [62,63,66,60];
         $needSpecial = false;
         foreach($servicesFlat as $flat){
-            if(in_array($flat, $servicesFlat)){
+            if(in_array($flat, $specialServices)){
                 $needSpecial = true;
             }
         }
