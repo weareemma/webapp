@@ -78,10 +78,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Admin
     Route::middleware(['role:manager|admin'])->group(function () {
-      Route::get('/admin-dashboard', [\App\Http\Controllers\BookingController::class, 'adminDashboard'])->name('admin-dashboard');
-      /*Route::get('/admin-dashboard', function(){
+      //Route::get('/admin-dashboard', [\App\Http\Controllers\BookingController::class, 'adminDashboard'])->name('admin-dashboard');
+      Route::get('/admin-dashboard', function(){
           return view('utils.maintenance');
-      })->name('admin-dashboard');*/
+      })->name('admin-dashboard');
       Route::get('/stylists/{booking}', [\App\Http\Controllers\BookingController::class, 'availableStylists'])->name('stylists');
       Route::post('/{booking}/update', [\App\Http\Controllers\BookingController::class, 'updateStylist'])->name('update.stylist');
       Route::post('/{booking}/calendar', [\App\Http\Controllers\BookingController::class, 'updateFromCalendar'])->name('update.calendar');
@@ -103,10 +103,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Customer non logged
     Route::withoutMiddleware(['auth:sanctum'])->group(function () {
       // Wizard main view
-      /*Route::get('/wizard', function(){
+      Route::get('/wizard', function(){
           return view('utils.maintenance');
-      })->name('wizard')->middleware('bookingLocked');*/
-      Route::get('/wizard', [\App\Http\Controllers\BookingController::class, 'wizard'])->name('wizard')->middleware('bookingLocked');
+      })->name('wizard')->middleware('bookingLocked');
+      //Route::get('/wizard', [\App\Http\Controllers\BookingController::class, 'wizard'])->name('wizard')->middleware('bookingLocked');
       // get payment infos
       Route::get('/payment-infos', [\App\Http\Controllers\BookingController::class, 'getPaymentInfos'])->name('payment-infos');
       // services
