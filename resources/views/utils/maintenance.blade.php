@@ -27,116 +27,19 @@
       vgo('process');
     </script>
 
-    <!-- Meta Pixel Code -->
-    <script>
-      ! function(f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function() {
-          n.callMethod ?
-            n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = '2.0';
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s)
-      }(window, document, 'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '613127537363815');
-      fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=613127537363815&ev=PageView&noscript=1" /></noscript>
-    <!-- End Meta Pixel Code -->
-    <link rel="modulepreload" as="script" crossorigin="" href="/build/assets/Login.e1c11339.js"><link rel="stylesheet" href="/build/assets/Login.38dc90c2.css"><link rel="modulepreload" as="script" crossorigin="" href="/build/assets/AuthenticationCard.a8542655.js"><link rel="modulepreload" as="script" crossorigin="" href="/build/assets/Checkbox.7b6731e7.js"><link rel="modulepreload" as="script" crossorigin="" href="/build/assets/LoginLayout.76310716.js"><link rel="stylesheet" href="/build/assets/LoginLayout.fddd9010.css"><link rel="modulepreload" as="script" crossorigin="" href="/build/assets/Logo.0a2735f3.js"><style type="text/css">
-        #nprogress {
-            pointer-events: none;
-        }
-
-        #nprogress .bar {
-            background: #4B5563;
-
-            position: fixed;
-            z-index: 1031;
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 2px;
-        }
-
-        #nprogress .peg {
-            display: block;
-            position: absolute;
-            right: 0px;
-            width: 100px;
-            height: 100%;
-            box-shadow: 0 0 10px #4B5563, 0 0 5px #4B5563;
-            opacity: 1.0;
-
-            -webkit-transform: rotate(3deg) translate(0px, -4px);
-            -ms-transform: rotate(3deg) translate(0px, -4px);
-            transform: rotate(3deg) translate(0px, -4px);
-        }
-
-        #nprogress .spinner {
-            display: block;
-            position: fixed;
-            z-index: 1031;
-            top: 15px;
-            right: 15px;
-        }
-
-        #nprogress .spinner-icon {
-            width: 18px;
-            height: 18px;
-            box-sizing: border-box;
-
-            border: solid 2px transparent;
-            border-top-color: #4B5563;
-            border-left-color: #4B5563;
-            border-radius: 50%;
-
-            -webkit-animation: nprogress-spinner 400ms linear infinite;
-            animation: nprogress-spinner 400ms linear infinite;
-        }
-
-        .nprogress-custom-parent {
-            overflow: hidden;
-            position: relative;
-        }
-
-        .nprogress-custom-parent #nprogress .spinner,
-        .nprogress-custom-parent #nprogress .bar {
-            position: absolute;
-        }
-
-        @-webkit-keyframes nprogress-spinner {
-            0%   { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
-        }
-        @keyframes nprogress-spinner {
-            0%   { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style><script type="text/javascript" charset="utf-8" src="https://prism.app-us1.com?a=1002519938&amp;u=https%3A%2F%2Fapp.weareemma.com%2Flogin&amp;t=d66d7a1d-3540-4128-b79c-08a02c1bf7d2" async=""></script><script type="text/javascript" charset="utf-8" src="https://trackcmp.net/t_prism_sitemessages.php?trackid=1002519938&amp;prismid=d66d7a1d-3540-4128-b79c-08a02c1bf7d2&amp;url=https%3A%2F%2Fapp.weareemma.com%2Flogin" async=""></script></head>
+    </head>
 
 <body class="font-sans antialiased min-h-screen">
-<div id="app" data-page="{&quot;component&quot;:&quot;Auth\/Login&quot;,&quot;props&quot;:{&quot;stripeKey&quot;:&quot;pk_live_51MZtmAEg98gBPsOWRLRs4lnJvBEqJFHtaU4tpPIHMOptFG6xXPm9Z2q7xn575KJZCGaxA2S6IaG9gPPg7oc1doyk00FfHKaJl2&quot;,&quot;jetstream&quot;:{&quot;canCreateTeams&quot;:false,&quot;canManageTwoFactorAuthentication&quot;:false,&quot;canUpdatePassword&quot;:true,&quot;canUpdateProfileInformation&quot;:false,&quot;hasEmailVerification&quot;:false,&quot;flash&quot;:[],&quot;hasAccountDeletionFeatures&quot;:true,&quot;hasApiFeatures&quot;:false,&quot;hasTeamFeatures&quot;:false,&quot;hasTermsAndPrivacyPolicyFeature&quot;:false,&quot;managesProfilePhotos&quot;:true},&quot;user&quot;:null,&quot;errorBags&quot;:[],&quot;errors&quot;:{},&quot;impersonate&quot;:null,&quot;flash&quot;:{&quot;data&quot;:null,&quot;type&quot;:&quot;&quot;,&quot;message&quot;:&quot;&quot;,&quot;restore_state&quot;:null},&quot;subscribed&quot;:false,&quot;is_admin&quot;:false,&quot;is_stylist&quot;:false,&quot;role&quot;:&quot;&quot;,&quot;current_store&quot;:null,&quot;stores_list&quot;:{&quot;3&quot;:&quot;We Are Emma Terraggio&quot;,&quot;2&quot;:&quot;We Are Emma Brera&quot;},&quot;stores_list_wizard&quot;:[{&quot;id&quot;:2,&quot;name&quot;:&quot;We Are Emma Brera&quot;,&quot;address&quot;:&quot;Via Mercato 8, 20121, Milano&quot;,&quot;washing_stations&quot;:3},{&quot;id&quot;:3,&quot;name&quot;:&quot;We Are Emma Terraggio&quot;,&quot;address&quot;:&quot;Via Terraggio 8, 20123 Milano&quot;,&quot;washing_stations&quot;:3}],&quot;customer&quot;:[],&quot;fiscal&quot;:{&quot;business_type&quot;:null,&quot;name&quot;:null,&quot;address&quot;:null,&quot;postal_code&quot;:null,&quot;city&quot;:null,&quot;province&quot;:null,&quot;country&quot;:null,&quot;fiscal_code&quot;:null,&quot;vat_number&quot;:null,&quot;invoice_code&quot;:null,&quot;phone&quot;:null,&quot;pec&quot;:null,&quot;email&quot;:null,&quot;available_business_types&quot;:[&quot;S.r.l.&quot;,&quot;Societ\u00e0 di capitale&quot;,&quot;Ditta individuale&quot;],&quot;available_countries&quot;:[&quot;Italia&quot;,&quot;Francia&quot;,&quot;Germania&quot;]},&quot;promo_name&quot;:&quot;Abbonamento Promo apertura&quot;,&quot;promo_expires&quot;:&quot;2023-06-09T22:00:00.000000Z&quot;,&quot;promo_already&quot;:false,&quot;booking_locked&quot;:false,&quot;last_update&quot;:{&quot;shift&quot;:&quot;2024-05-24 03:00:18&quot;},&quot;primaries_not_included&quot;:[&quot;Emma Ritual&quot;,&quot;Emma Drink &amp; Style&quot;],&quot;checkoutError&quot;:false,&quot;canResetPassword&quot;:true,&quot;status&quot;:null},&quot;url&quot;:&quot;\/login&quot;,&quot;version&quot;:&quot;&quot;}" data-v-app="">
-    <div class="login_layout_container" data-v-0aaec9f8="" data-v-285c44da="">
-        <div class="grid sm:grid-cols-2 gap-2" data-v-0aaec9f8="">
-            <div class="login_layout_img" data-v-0aaec9f8=""></div>
-            <div class="login_layout_content p-4" data-v-0aaec9f8="">
-                <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0" data-v-285c44da="">
+<div id="app" data-page="{&quot;component&quot;:&quot;Auth\/Login&quot;,&quot;props&quot;:{&quot;stripeKey&quot;:&quot;pk_live_51MZtmAEg98gBPsOWRLRs4lnJvBEqJFHtaU4tpPIHMOptFG6xXPm9Z2q7xn575KJZCGaxA2S6IaG9gPPg7oc1doyk00FfHKaJl2&quot;,&quot;jetstream&quot;:{&quot;canCreateTeams&quot;:false,&quot;canManageTwoFactorAuthentication&quot;:false,&quot;canUpdatePassword&quot;:true,&quot;canUpdateProfileInformation&quot;:false,&quot;hasEmailVerification&quot;:false,&quot;flash&quot;:[],&quot;hasAccountDeletionFeatures&quot;:true,&quot;hasApiFeatures&quot;:false,&quot;hasTeamFeatures&quot;:false,&quot;hasTermsAndPrivacyPolicyFeature&quot;:false,&quot;managesProfilePhotos&quot;:true},&quot;user&quot;:null,&quot;errorBags&quot;:[],&quot;errors&quot;:{},&quot;impersonate&quot;:null,&quot;flash&quot;:{&quot;data&quot;:null,&quot;type&quot;:&quot;&quot;,&quot;message&quot;:&quot;&quot;,&quot;restore_state&quot;:null},&quot;subscribed&quot;:false,&quot;is_admin&quot;:false,&quot;is_stylist&quot;:false,&quot;role&quot;:&quot;&quot;,&quot;current_store&quot;:null,&quot;stores_list&quot;:{&quot;3&quot;:&quot;We Are Emma Terraggio&quot;,&quot;2&quot;:&quot;We Are Emma Brera&quot;},&quot;stores_list_wizard&quot;:[{&quot;id&quot;:2,&quot;name&quot;:&quot;We Are Emma Brera&quot;,&quot;address&quot;:&quot;Via Mercato 8, 20121, Milano&quot;,&quot;washing_stations&quot;:3},{&quot;id&quot;:3,&quot;name&quot;:&quot;We Are Emma Terraggio&quot;,&quot;address&quot;:&quot;Via Terraggio 8, 20123 Milano&quot;,&quot;washing_stations&quot;:3}],&quot;customer&quot;:[],&quot;fiscal&quot;:{&quot;business_type&quot;:null,&quot;name&quot;:null,&quot;address&quot;:null,&quot;postal_code&quot;:null,&quot;city&quot;:null,&quot;province&quot;:null,&quot;country&quot;:null,&quot;fiscal_code&quot;:null,&quot;vat_number&quot;:null,&quot;invoice_code&quot;:null,&quot;phone&quot;:null,&quot;pec&quot;:null,&quot;email&quot;:null,&quot;available_business_types&quot;:[&quot;S.r.l.&quot;,&quot;Societ\u00e0 di capitale&quot;,&quot;Ditta individuale&quot;],&quot;available_countries&quot;:[&quot;Italia&quot;,&quot;Francia&quot;,&quot;Germania&quot;]},&quot;promo_name&quot;:&quot;Abbonamento Promo apertura&quot;,&quot;promo_expires&quot;:&quot;2023-06-09T22:00:00.000000Z&quot;,&quot;promo_already&quot;:false,&quot;booking_locked&quot;:false,&quot;last_update&quot;:{&quot;shift&quot;:&quot;2024-05-24 03:00:18&quot;},&quot;primaries_not_included&quot;:[&quot;Emma Ritual&quot;,&quot;Emma Drink &amp; Style&quot;],&quot;checkoutError&quot;:false,&quot;canResetPassword&quot;:true,&quot;status&quot;:null},&quot;url&quot;:&quot;\/login&quot;,&quot;version&quot;:&quot;&quot;}" x-data-v-app="">
+    <div class="login_layout_container" >
+        <div class="grid sm:grid-cols-2 gap-2" x-data-v-0aaec9f8="">
+            <div class="login_layout_img" x-data-v-0aaec9f8=""></div>
+            <div class="login_layout_content p-4" x-data-v-0aaec9f8="">
+                <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0" x-data-v-285c44da="">
                     <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                        <div class="px-4 py-5" data-v-285c44da="">
-<!--                            <h3 class="text-center mt-4 mb-5" data-v-285c44da="">Stiamo aggiornando il sistema di prenotazione</h3>-->
-                            <h6 class="text-center mb-8" data-v-285c44da="">Stiamo lavorando per introdurre sull'app il servizio colore
+                        <div class="px-4 py-5" x-data-v-285c44da="">
+<!--                            <h3 class="text-center mt-4 mb-5" x-data-v-285c44da="">Stiamo aggiornando il sistema di prenotazione</h3>-->
+                            <h6 class="text-center mb-8" x-data-v-285c44da="">Stiamo lavorando per introdurre sull'app il servizio colore
                                 <br /> 5 minuti di attesa per te, infinite sfumature in arrivo per i tuoi capelli!</h6>
                         </div>
                     </div>
