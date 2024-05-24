@@ -201,6 +201,7 @@ const selectPeople = (name) => {
 const selectStylist = () => {
   store.wizardFetchData('step_addons', {
     storeId: wizardSelection.value.store_id,
+    people: store.people
   });
   next();
 }
