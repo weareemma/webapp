@@ -59,7 +59,7 @@ class BookingService
         return $slots;
     }
 
-    public static function checkAvailability(Request $request) 
+    public static function checkAvailability(Request $request)
     {
         $storeAndUser = self::getStoreAndUser($request);
         $store = $storeAndUser['store'];
@@ -159,7 +159,7 @@ class BookingService
     foreach ($request->people as $p)
     {
         if ( ! isset($p['primary_service']['id'])) continue;
-        
+
         $massages = collect($p['addons']['massage'])->pluck('id')->toArray();
         $updo = collect($p['addons']['updo'])->pluck('id')->toArray();
         $treatment = collect($p['addons']['treatment'])->pluck('id')->toArray();
@@ -571,7 +571,7 @@ class BookingService
     $subscribed = !!$subscription;
 
     $originalPriceSum = $primaryHairService['net_price'];
-    ($subscribed) 
+    ($subscribed)
         ? $originalPriceSum += $addons->sum('net_price_discounted')
         : $originalPriceSum += $addons->sum('net_price');
     $actualPriceSum = $originalPriceSum;
@@ -702,7 +702,7 @@ class BookingService
           return $start <= $rangeSlotStart && $end >= $rangeSlotEnd;
         });
 
-        
+
         $workers = 0;
         $stylists = [];
         foreach ($slotSchedule as $s)
@@ -842,7 +842,7 @@ class BookingService
         switch($discount->service_typology)
         {
             // Check if service is present
-            
+
             case 'service':
                 $intersect = array_intersect($discount->services, array_merge($servicesIds, [$primary_id]));
                 if (count($intersect) == 0) $errors->push('not available');
@@ -892,7 +892,7 @@ class BookingService
     }
 
     if ($errors->count()) $discount = null;
-    
+
     // return data
     return compact('discount', 'errors');
   }
@@ -1116,7 +1116,7 @@ class BookingService
         $store = $storeAndUser['store'];
         $user = $storeAndUser['user'];
         $infos = $requestData['booking_infos'];
-        
+
         try
         {
             // DB::beginTransaction();
@@ -1126,7 +1126,7 @@ class BookingService
 
                 // Ricerca dell'ordine
                 $order = $booking->order;
-                if ($order) 
+                if ($order)
                 {
                     $order->load('payments');
 
@@ -1204,7 +1204,7 @@ class BookingService
                         $booking->save();
                     }
                     else
-                    {        
+                    {
                         /**
                          * #INFO
                          *
@@ -1214,7 +1214,7 @@ class BookingService
                          */
 
                         $booking = self::simpleBookingUpdate($requestData, $booking, $store);
-                    }   
+                    }
                 }
 
                 try
@@ -1228,11 +1228,11 @@ class BookingService
                 }
             }
             else
-            {   
+            {
                 // Order
                 // $order = OrderService::createOrUpdateOrder($user, null, $infos['actual_net_price'] ?? 0);
                 $order = Order::find($requestData['order_id'] ?? null) ?? OrderService::createOrUpdateOrder($user, null, $infos['actual_net_price'] ?? 0, $requestData);
-                
+
                 /**
                  * #INFO
                  *
@@ -1244,7 +1244,7 @@ class BookingService
                 // Create
                 $booking = self::generateBookingFromPeople($requestData, $store, $user, [], $to_pay);
 
-                // Link order 
+                // Link order
                 $booking->order_id = $order->id;
                 $booking->save();
 
@@ -1272,7 +1272,7 @@ class BookingService
                 catch (\Exception $ex)
                 {
                     Log::error('Booking save: Notification error: ' . $ex->getMessage());
-                }                
+                }
             }
 
 
@@ -1583,12 +1583,16 @@ class BookingService
       $bookings = [];
 
       // Add father weight
-      $bookings[$booking->id] = self::bookingWeight($booking);
+      if(empty($booking->stylist_id)){
+          $bookings[$booking->id] = self::bookingWeight($booking);
+      }
 
       // Add children weights
       foreach ($booking->children as $child)
       {
-          $bookings[$child->id] = self::bookingWeight($child);
+          if(empty($child->stylist_id)){
+              $bookings[$child->id] = self::bookingWeight($child);
+          }
       }
 
       // Sort bookings by weight
@@ -1634,10 +1638,14 @@ class BookingService
       $booking = Booking::find($booking_id);
       if ($booking)
       {
-        $booking->stylist_id = $stylist_id;
-        $booking->updatedBy();
-        $booking->save();
-        Log::info('Stylist ' . $stylist_id . ' assigned to booking ' . $booking_id);
+          if($booking->checkStylistAvailability($stylist_id)){
+              $booking->stylist_id = $stylist_id;
+              $booking->updatedBy();
+              $booking->save();
+              Log::info('Stylist ' . $stylist_id . ' assigned to booking ' . $booking_id);
+          }else{
+              Log::info('Stylist ' . $stylist_id . ' not assigned to booking ' . $booking_id . ' because stylist has not capabilities');
+          }
       }
       else
       {
@@ -1679,7 +1687,7 @@ class BookingService
           'logs' => []
       ];
 
-      
+
 
       if ($booking->order)
       {

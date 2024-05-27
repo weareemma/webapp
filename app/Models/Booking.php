@@ -147,7 +147,7 @@ class Booking extends Model implements HasMedia
 
   /**
    * Check if booking is past
-   * 
+   *
    */
   public function getIsPastAttribute()
   {
@@ -156,7 +156,7 @@ class Booking extends Model implements HasMedia
 
   /**
    * Scope canceled
-   * 
+   *
    */
   public function scopeWithCanceled($query)
   {
@@ -208,7 +208,7 @@ class Booking extends Model implements HasMedia
   }
 
   /**
-   * Order relation 
+   * Order relation
    */
   public function order()
   {
@@ -366,7 +366,7 @@ class Booking extends Model implements HasMedia
 
   public function getCanBeEditedAttribute()
   {
-    
+
       $user = Auth::user();
       if ($user)
       {
@@ -413,7 +413,7 @@ class Booking extends Model implements HasMedia
     if (!$searchQuery) return $query;
 
     $searches = explode(' ', $searchQuery);
-    
+
     $query
         ->where(function ($q) use ($searches) {
             $q
@@ -436,7 +436,7 @@ class Booking extends Model implements HasMedia
                         ->orWhereRelation('customer', 'name', 'like', "%$searches[0]%");
             });
         });
-        
+
 
     return $query;
   }
@@ -894,7 +894,7 @@ class Booking extends Model implements HasMedia
                                 ->where('start', '<', $now->format('H:i:s'));
                         });
                     });
-                    
+
                 }
                 elseif($request['status'] == 'todo')
                 {
@@ -909,7 +909,7 @@ class Booking extends Model implements HasMedia
                                 ->where('start', '>', $now->format('H:i:s'));
                         });
                     });
-                    
+
                 }
                 else
                 {
@@ -1000,5 +1000,79 @@ class Booking extends Model implements HasMedia
         {
             return 'system';
         }
+    }
+
+    public function checkStylistAvailability($stylist_id){
+        $stylist = User::find($stylist_id);
+        $stylistServices = [];
+        foreach($stylist->hairServices as $s){
+            $stylistServices[] = $s->id;
+        }
+
+        $serviceSelection = [
+            "massage" => [],
+            "treatment" => [],
+            "updo" => [],
+        ];
+        $servicesFlat = [];
+
+        $slots = $this->slots;
+        foreach($slots as $slot){
+            if($slot['service']['level'] === 'addon'){
+                $servicesFlat[] = $slot['service']['id'];
+                $serviceSelection[$slot['service']['type']][] = $slot['service']['id'];
+            }
+        }
+
+        $specialServices = [62,63,66,60];
+        $needSpecial = false;
+        foreach($servicesFlat as $flat){
+            if(in_array($flat, $specialServices)){
+                $needSpecial = true;
+            }
+        }
+        if($needSpecial){
+            if((in_array(60, $stylistServices)) || (in_array(62, $stylistServices)) || (in_array(63, $stylistServices)) || (in_array(66, $stylistServices))){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        //check for color (treatment ON DB)
+        if(count($serviceSelection["treatment"])){
+
+            $validStylist = true;
+            foreach ($serviceSelection["treatment"] as $treatment){
+                if(!in_array($treatment, $stylistServices)){
+                    $validStylist = false;
+                }
+            }
+            return $validStylist;
+        }
+
+        //check for cut (massage ON DB)
+        if(count($serviceSelection["massage"])){
+            $validStylist = true;
+            foreach ($serviceSelection["massage"] as $treatment){
+                if(!in_array($treatment, $stylistServices)){
+                    $validStylist = false;
+                }
+            }
+            return $validStylist;
+        }
+
+        //check for extra & raccolti (updo ON DB)
+        if(count($serviceSelection["updo"])){
+            $validStylist = true;
+            foreach ($serviceSelection["updo"] as $treatment){
+                if(!in_array($treatment, $stylistServices)){
+                    $validStylist = false;
+                }
+            }
+            return $validStylist;
+        }
+
+        return true;
     }
 }
