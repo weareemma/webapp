@@ -283,15 +283,42 @@ class AvailabilityService
         $period = self::buildPeriod($start, $end);
         $booking_flow = $booking_slots && is_array($booking_slots);
 
-        $all_stylists = User::stylists();
 
-        $bookings = $store->bookings()
-            ->whereBetween('date', [$start, $end])
-            ->get();
+        if(empty($request->stylists)){
+            $all_stylists = User::stylists();
+            $stylistsId = null;
+        }else{
+            $stylistsId = [];
+            foreach($request->stylists as $stl){
+                $stylistsId[] = $stl['id'];
+            }
+            $all_stylists = User::stylists($stylistsId);
+        }
 
-        $shifts = $store->shifts()
+        if(empty($stylistsId)){
+            $bookings = $store->bookings()
+                ->whereBetween('date', [$start, $end])
+                ->get();
+
+            $shifts = $store->shifts()
+                ->whereBetween('date', [$start, $end])
+                ->get();
+        }else{
+            $bookings = $store->bookings()
+                ->whereIn('stylist_id', $stylistsId)
+                ->whereBetween('date', [$start, $end])
+                ->get();
+
+            $shifts = $store->shifts()
+                ->whereIn('user_id', $stylistsId)
+                ->whereBetween('date', [$start, $end])
+                ->get();
+        }
+
+        $globalShift = $store->shifts()
             ->whereBetween('date', [$start, $end])
-            ->get();
+            ->count();
+
 
         $specific_schedule = $store->specificSchedules()
             ->whereBetween('date', [$start, $end])
@@ -376,6 +403,15 @@ class AvailabilityService
         $log_data = [];
 
 
+        if(!empty($globalShift)){
+            foreach ($days as $day => $slots){
+                $parse_dateToCheck = self::parseDate($day);
+                if(!$shifts->where('date', $parse_dateToCheck)->count()){
+                    unset($days[$day]);
+                }
+            }
+        }
+
         foreach ($days as $day => $slots)
         {
             $parse_date = self::parseDate($day);
@@ -449,7 +485,6 @@ class AvailabilityService
                         }
                     }
                 }
-
                 if ($booking_flow)
                 {
                     $slots = array_fill_keys(array_keys($slots), 0);

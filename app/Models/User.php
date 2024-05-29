@@ -320,9 +320,13 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
   {
     return self::allUsers()->role(self::ROLE_OPERATOR)->get();
   }
-  public static function stylists()
+  public static function stylists($ids = null)
   {
-    return self::allUsers()->role(self::ROLE_STYLIST)->orderBy('users.name', 'asc')->get();
+      if(!empty($ids)){
+          return self::allUsers()->role(self::ROLE_STYLIST)->whereIn('users.id', $ids)->orderBy('users.name', 'asc')->get();
+      }else{
+          return self::allUsers()->role(self::ROLE_STYLIST)->orderBy('users.name', 'asc')->get();
+      }
   }
   public static function stylistsForStore($storeId)
   {
