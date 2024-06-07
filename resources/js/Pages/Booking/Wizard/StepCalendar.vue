@@ -50,7 +50,7 @@
                     </div>
                   </div>
                 </div>
-                <div
+<!--                <div
                     class="group cursor-pointer flex flex-col items-center"
                     @click="() => {
                       wizardSelection.selected_day = null;
@@ -75,7 +75,7 @@
                       +
                     </div>
                   </div>
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
@@ -279,6 +279,7 @@ const otherDateSlots = ref([{
 }]);
 
 watch(datepickerValue, (n) => {
+  console.log(Inertia.get())
   Inertia.get()
 })
 
@@ -287,7 +288,7 @@ onMounted(() => {
 
 // select day
 function selectDay(day) {
-  console.log(day);
+  console.log('day', day);
   wizardSelection.value.selected_day = day;
   wizardSelection.value.selected_slot = null;
   if (slotsCollapsible.value) slotsCollapsible.value.open();

@@ -577,7 +577,7 @@ class AvailabilityService
 
                 $log_data[$day] = $log_slots;
 
-            }
+            }/*
             elseif ($specific->count() > 0)
             {
                 $slots = array_fill_keys(array_keys($slots), 0);
@@ -621,14 +621,118 @@ class AvailabilityService
                     self::normalizeBookingSlot($booking_slots)
                 );
                 $log_data[$day] = $slots;
-            }
+            }*/
 
             $final[$day] = $slots;
 
+        }
+
+//      dd($final);
+
+        $last = Carbon::parse(array_key_last($final));
+        $daysPlus = [];
+        $finalPlus = [];
+        if(($last) && ($last->lessThan($end))){
+
+            $last->addDay();
+            $periodDiff = self::buildPeriod($last, $end);
+
+            foreach ($periodDiff as $slot){
+                $day_check = true;
+
+                // Closing day
+                foreach ($closing_days as $closing)
+                {
+                    if ($slot->betweenIncluded($closing->from->startOfDay(), $closing->to->endOfDay()))
+                    {
+                        $day_check = false;
+                        break;
+                    }
+                }
+                if ( ! $day_check) {
+                    $daysPlus[$slot->format(self::FORMAT_DAY_KEY)] = [];
+                    continue;
+                }
+
+                $slot_check = false;
+
+                $exceptional_time = $exceptional_times->where('date', $slot->copy()->startOfDay())->first();
+                $opening_time = $opening_times->where('day', strtolower($slot->format('D')))->first();
+
+                if ($exceptional_time)
+                {
+                    foreach($exceptional_time->slots as $time_slot)
+                    {
+                        try{
+                            $period = self::buildPeriod(
+                                $exceptional_time->date->copy()->setTimeFromTimeString($time_slot['start_time']),
+                                $exceptional_time->date->copy()->setTimeFromTimeString($time_slot['end_time']),
+                            );
+
+                            if ($period->contains($slot))
+                            {
+                                $slot_check = true;
+                            }
+                        }catch(Exception $e){
+                            //Log::error('$exceptional_time_check', $e->getMessage());
+                        }
+
+                    }
+                }
+                elseif($opening_time)
+                {
+                    foreach ($opening_time->slots as $time_slot)
+                    {
+                        $period = self::buildPeriod(
+                            $slot->copy()->setTimeFromTimeString($time_slot['start_time']),
+                            $slot->copy()->setTimeFromTimeString($time_slot['end_time'])
+                        );
+
+                        if ($period->contains($slot)) $slot_check = true;
+                    }
+                }
+
+                if ( ! $slot_check) continue;
+
+                $daysPlus[$slot->format(self::FORMAT_DAY_KEY)][$slot->format(self::SLOT_KEY_FORMAT)] = $store->style_stations;
+            }
+        }
+
+        foreach ($daysPlus as $day => $slots)
+        {
+            $parse_date = self::parseDate($day);
+
+            if (is_null($parse_date)) continue;
+            $default = $default_schedule->where('weekday', strtolower($parse_date->format('D')));
+
+            if ($default->count() > 0)
+            {
+                $slots = array_fill_keys(array_keys($slots), 0);
+                foreach ($default as $d)
+                {
+                    $period = self::buildPeriod(
+                        $parse_date->copy()->setTimeFrom($d->start),
+                        $parse_date->copy()->setTimeFrom($d->end)
+                    );
+
+                    $slots = self::addSlotsToBase(
+                        $slots,
+                        self::buildSlotsArray($period, $d->workers)
+                    );
+                }
+
+                $slots = self::findForBookingAvailability(
+                    self::removeExistingBookings($slots, $not_assigned_bookings),
+                    self::normalizeBookingSlot($booking_slots)
+                );
+                $log_data[$day] = $slots;
+            }
+
+            $finalPlus[$day] = $slots;
 
         }
 
-        return ($log) ? $log_data : $final;
+        return ($log) ? $log_data : array_merge($final, $finalPlus);
     }
     /**
      * Parse date
