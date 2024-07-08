@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Plans\StorePlanRequest;
 use App\Http\Requests\Plans\UpdatePlanRequest;
+use App\Models\HairService;
 use App\Models\Package;
 use App\Models\Plan;
 use App\Models\PlanPricing;
@@ -167,9 +168,19 @@ class PlanController extends Controller
   public function edit(Plan $plan)
   {
     $plan->load('pricings');
+
+    $HairServices = [];
+    foreach(HairService::orderby('title', 'asc')->get() as $hs){
+        $HairServices[] = [
+            "value" => $hs->id,
+            "label" => $hs->title,
+        ];
+    }
+
     return Inertia::render('Plans/Form', [
       'model' => $plan,
-      'availableDurations' => PlanPricing::AVAILABLE_DURATIONS
+      'availableDurations' => PlanPricing::AVAILABLE_DURATIONS,
+        'hairServices' => $HairServices,
     ]);
   }
 

@@ -203,7 +203,7 @@ const props = defineProps({
   customers: Object,
   plans: Object
 });
-
+console.log(props.plans)
 const isAdmin = computed(() => usePage().props.value.is_admin);
 
 // search

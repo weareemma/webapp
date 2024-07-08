@@ -20,6 +20,44 @@
           ></bb-input>
           <bb-input-validation :form="form" name="name"></bb-input-validation>
         </div>
+        <div>
+          <bb-label class="mb-1">Servizio principale</bb-label>
+          <bb-select
+              mode="single"
+              placeholder="Seleziona il servizio principale"
+              :close-on-select="true"
+              :options="hairServices"
+              v-model="form.hair_service_id"
+          ></bb-select>
+          <bb-input-validation :form="form" name="hair_service_id"></bb-input-validation>
+        </div>
+        <div>
+          <bb-label class="mb-1">Numero servizi compresi</bb-label>
+          <bb-input
+              type="number"
+              placeholder="Numero servizi compresi"
+              v-model="form.hair_service_count"
+          ></bb-input>
+          <bb-input-validation :form="form" name="hair_service_count"></bb-input-validation>
+        </div>
+        <div>
+          <bb-label class="mb-1">Percentuale di sconto</bb-label>
+          <bb-input
+              type="number"
+              placeholder="Percentuale di sconto"
+              v-model="form.discount_percentage"
+          ></bb-input>
+          <bb-input-validation :form="form" name="discount_percentage"></bb-input-validation>
+        </div>
+        <div>
+          <bb-label class="mb-1">Numero Drink&Style compresi</bb-label>
+          <bb-input
+              type="number"
+              placeholder="Numero Drink&Style compresi"
+              v-model="form.ds_count"
+          ></bb-input>
+          <bb-input-validation :form="form" name="ds_count"></bb-input-validation>
+        </div>
         <div class="col-span-2">
           <bb-label class="mb-1 text-bb-gray-700">DURATE</bb-label>
           <div
@@ -128,9 +166,12 @@ import uniqid from "uniqid";
 const props = defineProps({
   model: Object,
   availableDurations: Array,
+  hairServices: Object,
 });
 
-const form = useForm(props.model);
+console.log(props.hairServices)
+
+const form = useForm({...props.model, hair_services: props.hairServices});
 
 function storeModel() {
   const tForm = form.transform((f) => ({
@@ -194,6 +235,18 @@ const durationOptions = computed(() => {
         opts[ad] = "1 anno";
         break;
     }
+  });
+
+  return opts;
+});
+
+
+// hairServicesOptions options
+const hairServicesOptions = computed(() => {
+  const opts = {};
+
+  props.hairServices.forEach((hs) => {
+    opts[hs.value] = hs.label
   });
 
   return opts;

@@ -25,10 +25,14 @@ class Plan extends Model
    * @var string[]
    */
   protected $fillable = [
-    'stripe_product_id',
-    'name',
-    'active',
-    'description'
+        'stripe_product_id',
+        'name',
+        'active',
+        'description',
+        'hair_service_id',
+        'hair_service_count',
+        'ds_count',
+        'discount_percentage',
   ];
 
   /**
@@ -37,10 +41,14 @@ class Plan extends Model
    * @var array
    */
   protected $attributes = [
-    'stripe_product_id' => null,
-    'name'              => null,
-    'active'            => true,
-    'description'       => null
+    'stripe_product_id'     => null,
+    'name'                  => null,
+    'active'                => true,
+    'description'           => null,
+    'hair_service_id'       => null,
+    'hair_service_count'    => 0,
+    'ds_count'              => 0,
+    'discount_percentage'   => 0,
   ];
 
   protected $appends = [
@@ -139,7 +147,7 @@ class Plan extends Model
       $productData = [
         'name' => $data['name'],
         'active' => !!$data['active'],
-        'description' => $data['description'] ?? null,
+        'description' => $data['description'] ?? null
       ];
 
       if ($model) {
