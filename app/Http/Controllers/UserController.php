@@ -47,11 +47,51 @@ class UserController extends Controller
      */
     public function create()
     {
-        $model = new User();
-        return Inertia::render('Users/Form', [
-            'user' => $model,
-            'stores' => $this->loadStores()
-        ]);
+
+        $massage = [];
+        $treatment = [];
+        $updo = [];
+        $hair_service = [];
+
+        foreach(HairService::where("type", "massage")->where("level", "addon")->where("active", 1)->get() as $service){
+            $massage[] = [
+                "id" => $service->id,
+                "title" => $service->title,
+                "selected" => false,
+            ];
+
+            $hair_service[] = $service->id;
+        }
+        foreach(HairService::where("type", "treatment")->where("level", "addon")->where("active", 1)->get() as $service){
+            $treatment[] = [
+                "id" => $service->id,
+                "title" => $service->title,
+                "selected" => false
+            ];
+            $hair_service[] = $service->id;
+
+        }
+        foreach(HairService::where("type", "updo")->where("level", "addon")->where("active", 1)->get() as $service){
+            $updo[] = [
+                "id" => $service->id,
+                "title" => $service->title,
+                "selected" => false,
+            ];
+            $hair_service[] = $service->id;
+        }
+
+        $dataReturn = [
+            'user' => new User(),
+            'stores' => $this->loadStores(),
+            'addOns' => [
+                "massage" => $massage,
+                "treatment" => $treatment,
+                "updo" => $updo,
+            ],
+            'hairService' => $hair_service
+        ];
+
+        return Inertia::render('Users/Form', $dataReturn);
     }
 
     /**
