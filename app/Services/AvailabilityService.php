@@ -403,9 +403,11 @@ class AvailabilityService
         $log_data = [];
 
 
+        // se sono in un periodo in cui sono presenti i turni
         if(!empty($globalShift)){
             foreach ($days as $day => $slots){
                 $parse_dateToCheck = self::parseDate($day);
+                //se non ci sono turni nel giorno specifico, io giorno viene tolto dalle disponibilità da validare
                 if(!$shifts->where('date', $parse_dateToCheck)->count()){
                     unset($days[$day]);
                 }
@@ -419,8 +421,8 @@ class AvailabilityService
             if (is_null($parse_date)) continue;
 
             $actual = $shifts->where('date', $parse_date);
-            $specific = $specific_schedule->where('date', $parse_date);
-            $default = $default_schedule->where('weekday', strtolower($parse_date->format('D')));
+//            $specific = $specific_schedule->where('date', $parse_date);
+//            $default = $default_schedule->where('weekday', strtolower($parse_date->format('D')));
 
             //check if has stylist choice
             if(empty($stylist_id)){
@@ -467,7 +469,7 @@ class AvailabilityService
                 }
 
                 // Remove existing not assigned bookings
-                foreach ($stylists_availabilities as $stylist_id => $stylist_slots)
+                /*foreach ($stylists_availabilities as $stylist_id => $stylist_slots)
                 {
                     foreach ($not_assigned_bookings as $booking)
                     {
@@ -484,7 +486,7 @@ class AvailabilityService
                             $not_assigned_bookings = $not_assigned_bookings->except($booking->id);
                         }
                     }
-                }
+                }*/
                 if ($booking_flow)
                 {
                     $slots = array_fill_keys(array_keys($slots), 0);

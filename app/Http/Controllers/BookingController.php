@@ -158,12 +158,11 @@ class BookingController extends Controller
           "response" => $data,
         ];
 
+
         if (($request->has('axios')) || ($request->hasHeader('X-Header-WeareemmaTest')))
         {
-            Log::channel('bookingavailability')->info("FROM AXIOS: ". json_encode($datalog));
             return \response()->json($data);
         }
-        Log::channel('bookingavailability')->info("FROM FRONT: ". json_encode($datalog));
         return Redirect::back()->with('flash_data', $data);
   }
 
